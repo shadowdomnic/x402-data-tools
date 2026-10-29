@@ -1,0 +1,26 @@
+{
+  "name": "x402-data-tools",
+  "version": "0.1.0",
+  "description": "180+ pay-per-call data tools for AI agents over x402: token, wallet, company and website reports, crypto, SEC, FRED, weather, web pages. Vercel AI SDK, OpenAI and Anthropic tool formats.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": { "types": "./index.d.ts", "default": "./index.js" },
+    "./ai-sdk": { "types": "./ai-sdk.d.ts", "default": "./ai-sdk.js" }
+  },
+  "files": ["index.js", "index.d.ts", "ai-sdk.js", "ai-sdk.d.ts", "catalog.json", "README.md"],
+  "keywords": ["x402", "ai-agents", "ai-sdk", "vercel-ai", "tools", "usdc", "base", "crypto", "sec", "mcp"],
+  "license": "MIT",
+  "homepage": "https://github.com/shadowdomnic/x402-data-tools",
+  "repository": { "type": "git", "url": "git+https://github.com/shadowdomnic/x402-data-tools.git" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@x402/evm": "^2.29.0",
+    "@x402/fetch": "^2.29.0",
+    "viem": "^2.30.0"
+  },
+  "peerDependencies": { "ai": ">=5" },
+  "peerDependenciesMeta": { "ai": { "optional": true } },
+  "scripts": { "test": "node --test" }
+}

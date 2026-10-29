@@ -1,0 +1,6833 @@
+{
+ "base_url": "https://bess-x402.onrender.com",
+ "tools": [
+  {
+   "name": "huggingface_models",
+   "route": "/v1/ai/hf-models",
+   "price_usd": 0.003,
+   "title": "Hugging Face Model Search",
+   "description": "Search Hugging Face models by name and task (text-generation, image-text-to-text, automatic-speech-recognition...), sorted by trending, downloads, likes or newest, with license and links.",
+   "tags": [
+    "ai",
+    "huggingface",
+    "models",
+    "open-source",
+    "ml"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Name contains"
+     },
+     "task": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Pipeline tag, e.g. text-generation"
+     },
+     "sort": {
+      "default": "trending",
+      "type": "string",
+      "description": "trending, downloads, likes or newest"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Rows (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "llm_model_prices",
+   "route": "/v1/ai/model-prices",
+   "price_usd": 0.003,
+   "title": "LLM API Prices",
+   "description": "API prices of 400+ LLMs (OpenAI, Anthropic, Google, DeepSeek, Llama, Qwen...) per million input/output tokens with context length, searchable by name and sortable by price, context or newest.",
+   "tags": [
+    "ai",
+    "llm",
+    "pricing",
+    "models",
+    "tokens",
+    "openrouter"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Name contains, e.g. claude, gpt, gemini"
+     },
+     "sort": {
+      "default": "input_price",
+      "type": "string",
+      "description": "input_price, output_price, context or newest"
+     },
+     "free": {
+      "default": false,
+      "type": "boolean",
+      "description": "true for free models only"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Rows (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "token_cost",
+   "route": "/v1/ai/token-cost",
+   "price_usd": 0.003,
+   "title": "Token Counter & LLM Cost",
+   "description": "Count a text's tokens and estimate the cost of one call on popular LLMs (or the models you list), input plus an expected number of output tokens, and whether it fits each context window.",
+   "tags": [
+    "ai",
+    "llm",
+    "tokens",
+    "pricing",
+    "tokenizer",
+    "cost"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Prompt text"
+     },
+     "output_tokens": {
+      "default": 0,
+      "type": "integer",
+      "description": "Expected output tokens"
+     },
+     "models": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated model ids or prefixes, e.g. openai/gpt,anthropic/claude"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "app_store_details",
+   "route": "/v1/apps/details",
+   "price_usd": 0.003,
+   "title": "App Store app details",
+   "description": "Details of an iPhone/iPad app on the Apple App Store by id or store URL: developer, rating, price, genre, version and update date. Use for app or competitor research.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "app": {
+      "type": "string"
+     },
+     "country": {
+      "default": "us",
+      "type": "string"
+     }
+    },
+    "required": [
+     "app"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "app_store_reviews",
+   "route": "/v1/apps/reviews",
+   "price_usd": 0.005,
+   "title": "App Store reviews",
+   "description": "User reviews of an iPhone/iPad app from the Apple App Store, by app id or store URL: rating, title, text, date and version, plus rating counts. Use to analyse app feedback.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "app": {
+      "type": "string"
+     },
+     "limit": {
+      "default": 100,
+      "type": "integer"
+     },
+     "country": {
+      "default": "us",
+      "type": "string"
+     },
+     "sort": {
+      "default": "newest",
+      "type": "string"
+     }
+    },
+    "required": [
+     "app"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "app_store_search",
+   "route": "/v1/apps/search",
+   "price_usd": 0.005,
+   "title": "App Store search",
+   "description": "Search the Apple App Store for a keyword and get up to 50 apps in rank order with full details. Use for ASO keyword research or finding competing apps.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer"
+     },
+     "country": {
+      "default": "us",
+      "type": "string"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "vehicle_recalls",
+   "route": "/v1/auto/recalls",
+   "price_usd": 0.003,
+   "title": "Vehicle Safety Recalls",
+   "description": "US safety recalls for a vehicle make, model and year from NHTSA: campaign number, date, component, summary, consequence, remedy and do-not-drive or park-outside warnings. Use before buying or servicing.",
+   "tags": [
+    "recalls",
+    "vehicles",
+    "cars",
+    "safety",
+    "nhtsa"
+   ],
+   "input_schema": {
+    "properties": {
+     "make": {
+      "type": "string",
+      "description": "Make, e.g. Toyota"
+     },
+     "model": {
+      "type": "string",
+      "description": "Model, e.g. Camry"
+     },
+     "year": {
+      "type": "integer",
+      "description": "Model year"
+     }
+    },
+    "required": [
+     "make",
+     "model",
+     "year"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "vin_decode",
+   "route": "/v1/auto/vin",
+   "price_usd": 0.003,
+   "title": "VIN Decoder",
+   "description": "Decode a vehicle VIN (cars, trucks, motorcycles sold in the US): make, model, year, trim, body, engine, fuel and electrification, drive, transmission, plant and safety equipment, with a validity check. Source: NHTSA vPIC.",
+   "tags": [
+    "vin",
+    "vehicles",
+    "cars",
+    "automotive",
+    "nhtsa"
+   ],
+   "input_schema": {
+    "properties": {
+     "vin": {
+      "type": "string",
+      "description": "17-character VIN"
+     },
+     "model_year": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Model year, helps with pre-1980 or partial VINs"
+     }
+    },
+    "required": [
+     "vin"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "bess_arbitrage_revenue",
+   "route": "/v1/bess/arbitrage",
+   "price_usd": 0.5,
+   "title": "BESS arbitrage revenue",
+   "description": "Battery storage (BESS) day-ahead arbitrage revenue for a European bidding zone over up to a year of historical prices: annualised revenue per MW, cycles and payback. Use when sizing or screening a battery project or comparing zones. Dates are YYYY-MM-DD.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "zone": {
+      "type": "string"
+     },
+     "start": {
+      "type": "string"
+     },
+     "end": {
+      "type": "string"
+     },
+     "power_mw": {
+      "default": 1,
+      "type": "number"
+     },
+     "energy_mwh": {
+      "default": 2,
+      "type": "number"
+     },
+     "capex_per_kwh": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null
+     }
+    },
+    "required": [
+     "zone",
+     "start",
+     "end"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_gas_fees",
+   "route": "/v1/chain/gas",
+   "price_usd": 0.003,
+   "title": "EVM gas fees",
+   "description": "Current gas fees on Ethereum, Base, Arbitrum, Optimism or Polygon: base fee and slow/standard/fast priority and max fee in gwei plus the cost of a plain transfer. Use before sending a transaction.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "chain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "aws_ec2_prices",
+   "route": "/v1/cloud/aws-prices",
+   "price_usd": 0.003,
+   "title": "AWS EC2 Prices",
+   "description": "AWS EC2 on-demand hourly and monthly prices in 21 regions: one instance type, or the cheapest types with at least N vCPUs and GB of memory in a family (GPU, m7i, Compute optimized...). Linux or Windows.",
+   "tags": [
+    "cloud",
+    "aws",
+    "ec2",
+    "pricing",
+    "gpu",
+    "finops"
+   ],
+   "input_schema": {
+    "properties": {
+     "instance_type": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Exact type, e.g. m7i.large"
+     },
+     "region": {
+      "default": "us-east-1",
+      "type": "string",
+      "description": "Region code, e.g. us-east-1"
+     },
+     "os": {
+      "default": "linux",
+      "type": "string",
+      "description": "linux or windows"
+     },
+     "min_vcpu": {
+      "default": 0,
+      "type": "integer",
+      "description": "Minimum vCPUs"
+     },
+     "min_memory_gb": {
+      "default": 0,
+      "type": "number",
+      "description": "Minimum memory GB"
+     },
+     "family": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Family or type prefix, e.g. GPU, g6, Memory optimized"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Rows (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "azure_vm_prices",
+   "route": "/v1/cloud/azure-prices",
+   "price_usd": 0.003,
+   "title": "Azure VM Prices",
+   "description": "Azure retail prices for a VM SKU (e.g. Standard_D4s_v5, Standard_NC24ads_A100_v4) in one region or all regions: Linux and Windows pay-as-you-go, spot and 1/3-year reserved hourly rates, cheapest region first.",
+   "tags": [
+    "cloud",
+    "azure",
+    "pricing",
+    "vm",
+    "gpu",
+    "finops"
+   ],
+   "input_schema": {
+    "properties": {
+     "sku": {
+      "type": "string",
+      "description": "ARM SKU name, e.g. Standard_D4s_v5"
+     },
+     "region": {
+      "default": "eastus",
+      "type": "string",
+      "description": "Region, e.g. eastus, or all"
+     },
+     "service": {
+      "default": "Virtual Machines",
+      "type": "string",
+      "description": "Service name, default Virtual Machines"
+     }
+    },
+    "required": [
+     "sku"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "gpu_rental_prices",
+   "route": "/v1/cloud/gpu-prices",
+   "price_usd": 0.003,
+   "title": "GPU Rental Prices",
+   "description": "Hourly GPU rental prices on RunPod (secure and community cloud, on-demand and spot) for H100, H200, B200, A100, L40S, RTX 4090/5090 and more, cheapest first. Use to budget training or inference.",
+   "tags": [
+    "gpu",
+    "cloud",
+    "pricing",
+    "ai",
+    "h100",
+    "compute"
+   ],
+   "input_schema": {
+    "properties": {
+     "gpu": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "GPU name contains, e.g. H100, A100, 4090"
+     },
+     "min_memory_gb": {
+      "default": 0,
+      "type": "integer",
+      "description": "Minimum GPU memory"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "sanctions_name_screen",
+   "route": "/v1/compliance/sanctions-name",
+   "price_usd": 0.004,
+   "title": "OFAC Sanctions Name Screen",
+   "description": "Screen a person or company name against the US Treasury OFAC SDN list including aliases, with fuzzy matching: match score, entity type, sanctions programs and remarks. Use for KYC, payouts and onboarding.",
+   "tags": [
+    "sanctions",
+    "ofac",
+    "kyc",
+    "aml",
+    "compliance"
+   ],
+   "input_schema": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Person or company name"
+     },
+     "min_score": {
+      "default": 0.85,
+      "type": "number",
+      "description": "Match threshold 0-1 (default 0.85)"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "name"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "sanctions_wallet_check",
+   "route": "/v1/compliance/sanctions-wallet",
+   "price_usd": 0.003,
+   "title": "Sanctioned Wallet Check",
+   "description": "Check up to 50 crypto addresses (ETH, BTC, TRX, USDT, SOL and more) against the OFAC SDN list's digital currency addresses: PASS or BLOCK with the sanctioned party and program. Use as a pre-payment AML gate.",
+   "tags": [
+    "sanctions",
+    "ofac",
+    "aml",
+    "wallet-screening",
+    "compliance"
+   ],
+   "input_schema": {
+    "properties": {
+     "addresses": {
+      "type": "string",
+      "description": "Comma-separated addresses"
+     }
+    },
+    "required": [
+     "addresses"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_wallet_balance",
+   "route": "/v1/crypto/balance",
+   "price_usd": 0.003,
+   "title": "EVM Wallet Balances",
+   "description": "Balances of a wallet address or ENS name on Ethereum, Base, Arbitrum, Optimism and Polygon in one call: native ETH/POL, USDC, USDT, DAI and any ERC-20 contracts you add, each with USD value and a total. Use to check whether a wallet is funded, value a portfolio or confirm a payment arrived.",
+   "tags": [
+    "crypto",
+    "wallet",
+    "balance",
+    "evm",
+    "usdc",
+    "portfolio"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "0x address or ENS name"
+     },
+     "chains": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated subset of ethereum,base,arbitrum,optimism,polygon (default all)"
+     },
+     "tokens": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Extra ERC-20 contract addresses, comma-separated, max 10"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "bitcoin_address",
+   "route": "/v1/crypto/btc-address",
+   "price_usd": 0.003,
+   "title": "Bitcoin Address Balance",
+   "description": "Balance of a Bitcoin address (confirmed and pending), total received and sent, transaction count and its latest 10 transactions with net amount. Use to check a BTC payment or wallet.",
+   "tags": [
+    "bitcoin",
+    "address",
+    "balance",
+    "btc",
+    "wallet"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Bitcoin address (bc1..., 1..., 3...)"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "bitcoin_fees",
+   "route": "/v1/crypto/btc-fees",
+   "price_usd": 0.003,
+   "title": "Bitcoin Fee Estimates",
+   "description": "Bitcoin network fee rates in sat/vB for next block, 30 minutes, 1 hour and economy, plus mempool size, block height and the cost of a typical payment. Use right before sending BTC.",
+   "tags": [
+    "bitcoin",
+    "fees",
+    "mempool",
+    "btc"
+   ],
+   "input_schema": {
+    "properties": {},
+    "type": "object"
+   }
+  },
+  {
+   "name": "bitcoin_transaction",
+   "route": "/v1/crypto/btc-tx",
+   "price_usd": 0.003,
+   "title": "Bitcoin Transaction Status",
+   "description": "Status of a Bitcoin transaction: confirmed or pending, confirmations, block, time, fee and fee rate, RBF flag, inputs and outputs. Use to confirm a BTC payment or decide whether to bump a fee.",
+   "tags": [
+    "bitcoin",
+    "transaction",
+    "btc",
+    "payments"
+   ],
+   "input_schema": {
+    "properties": {
+     "txid": {
+      "type": "string",
+      "description": "Transaction id (64 hex)"
+     }
+    },
+    "required": [
+     "txid"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_candles",
+   "route": "/v1/crypto/candles",
+   "price_usd": 0.003,
+   "title": "Crypto OHLCV Candles",
+   "description": "OHLCV candles for a crypto pair from Coinbase Exchange at 1m, 5m, 15m, 1h, 6h or 1d, up to 300, oldest first. Use for charting, technical indicators (RSI, moving averages) and backtests.",
+   "tags": [
+    "crypto",
+    "ohlcv",
+    "candles",
+    "chart",
+    "technical-analysis"
+   ],
+   "input_schema": {
+    "properties": {
+     "pair": {
+      "default": "BTC-USD",
+      "type": "string",
+      "description": "Pair such as BTC-USD"
+     },
+     "interval": {
+      "default": "1h",
+      "type": "string",
+      "description": "1m, 5m, 15m, 1h, 6h or 1d"
+     },
+     "limit": {
+      "default": 100,
+      "type": "integer",
+      "description": "Candles (1-300)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_chain_lookup",
+   "route": "/v1/crypto/chain",
+   "price_usd": 0.003,
+   "title": "EVM Chain Lookup",
+   "description": "Look up any EVM chain by chain ID or name (8453, base, arbitrum): chain ID in decimal and hex, native currency, public RPC URLs, block explorers and testnet flag. Use to configure wallets, RPCs or cross-chain apps.",
+   "tags": [
+    "evm",
+    "chains",
+    "rpc",
+    "chain-id",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Chain ID or name"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "chains_tvl",
+   "route": "/v1/crypto/chains",
+   "price_usd": 0.003,
+   "title": "Blockchain TVL Ranking",
+   "description": "Blockchains ranked by DeFi total value locked with share of the market, gas token and chain id. Use to compare ecosystems (Ethereum, Solana, Base, Arbitrum...) or track where capital is moving.",
+   "tags": [
+    "defi",
+    "tvl",
+    "chains",
+    "ecosystems",
+    "defillama"
+   ],
+   "input_schema": {
+    "properties": {
+     "limit": {
+      "default": 30,
+      "type": "integer",
+      "description": "Maximum number of results (1-300)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_coin_info",
+   "route": "/v1/crypto/coin",
+   "price_usd": 0.003,
+   "title": "Crypto Coin Profile",
+   "description": "Full profile of a coin by symbol or CoinGecko id: description, website, X/Twitter, GitHub, categories, contract addresses per chain, price, market cap, FDV, volume, 24h/7d/30d/1y change, all-time high/low and supply. Use for token research or due diligence.",
+   "tags": [
+    "crypto",
+    "token",
+    "research",
+    "market-data",
+    "coingecko"
+   ],
+   "input_schema": {
+    "properties": {
+     "coin": {
+      "type": "string",
+      "description": "Symbol (ETH) or CoinGecko id (ethereum)"
+     }
+    },
+    "required": [
+     "coin"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_convert",
+   "route": "/v1/crypto/convert",
+   "price_usd": 0.003,
+   "title": "Crypto to Fiat Converter",
+   "description": "Convert an amount of any token (BTC, ETH, SOL, symbols or chain:address) into one or more fiat currencies (USD, EUR, GBP, AED, JPY, ~35 more), with the price per unit each way. Use for invoices, accounting or pricing in local currency.",
+   "tags": [
+    "crypto",
+    "converter",
+    "fiat",
+    "price",
+    "fx"
+   ],
+   "input_schema": {
+    "properties": {
+     "amount": {
+      "default": 1,
+      "type": "number",
+      "description": "Token amount"
+     },
+     "token": {
+      "default": "BTC",
+      "type": "string",
+      "description": "Token symbol or id"
+     },
+     "to": {
+      "default": "USD",
+      "type": "string",
+      "description": "Comma-separated fiat currencies"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "dex_pairs",
+   "route": "/v1/crypto/dex-pairs",
+   "price_usd": 0.003,
+   "title": "DEX Pairs & Token Liquidity",
+   "description": "DEX trading pairs for a token symbol, name or contract address across all chains (DexScreener): price, liquidity, 24h volume, 1h/24h change, buys/sells, FDV, market cap and pair age, deepest liquidity first. Use to price new or small tokens and check if they can be traded.",
+   "tags": [
+    "crypto",
+    "dex",
+    "liquidity",
+    "memecoins",
+    "dexscreener"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Token symbol, name or address"
+     },
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "DexScreener chain id, e.g. base, solana"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-30)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "dex_trending_pools",
+   "route": "/v1/crypto/dex-trending",
+   "price_usd": 0.003,
+   "title": "Trending & New DEX Pools",
+   "description": "Trending or newly launched DEX pools on Base, Solana, Ethereum, BSC and more: token, price, FDV, liquidity, 24h volume, price change and buy/sell counts. Use to spot new memecoins and momentum early.",
+   "tags": [
+    "dex",
+    "memecoins",
+    "trending",
+    "new-pairs",
+    "solana",
+    "base"
+   ],
+   "input_schema": {
+    "properties": {
+     "network": {
+      "default": "base",
+      "type": "string",
+      "description": "base, solana, ethereum, bsc, arbitrum..."
+     },
+     "kind": {
+      "default": "trending",
+      "type": "string",
+      "description": "trending or new"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-20)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "dex_volumes",
+   "route": "/v1/crypto/dex-volumes",
+   "price_usd": 0.003,
+   "title": "DEX Trading Volumes",
+   "description": "Decentralized exchange volume: total market 24h/7d and the top DEXs (Uniswap, Aerodrome, Raydium...) with 24h, 7d, 30d volume and daily change, for all chains or one chain. Use to compare DEX activity or chain usage.",
+   "tags": [
+    "defi",
+    "dex",
+    "volume",
+    "uniswap",
+    "defillama"
+   ],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain name, e.g. Base, Solana (default all)"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "ens_resolve",
+   "route": "/v1/crypto/ens",
+   "price_usd": 0.003,
+   "title": "ENS & Basename Resolver",
+   "description": "Resolve an ENS name (vitalik.eth) or Basename (jesse.base.eth) to its address and profile records (avatar, url, twitter, github, email, description), or an address to its verified primary name. Use before sending funds to a name or to show who owns a wallet.",
+   "tags": [
+    "crypto",
+    "ens",
+    "basenames",
+    "identity",
+    "ethereum",
+    "base"
+   ],
+   "input_schema": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "ENS name, Basename or 0x address for reverse lookup"
+     }
+    },
+    "required": [
+     "name"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_exchanges",
+   "route": "/v1/crypto/exchanges",
+   "price_usd": 0.003,
+   "title": "Crypto Exchange Ranking",
+   "description": "Centralized crypto exchanges ranked by trust score or adjusted 24h volume: name, volume, markets, supported fiat currencies, website and notices such as hacks. Use to pick a venue or check one.",
+   "tags": [
+    "crypto",
+    "exchanges",
+    "cex",
+    "volume",
+    "ranking"
+   ],
+   "input_schema": {
+    "properties": {
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_fear_greed",
+   "route": "/v1/crypto/fear-greed",
+   "price_usd": 0.003,
+   "title": "Crypto Fear & Greed Index",
+   "description": "The Crypto Fear & Greed Index (0 extreme fear to 100 extreme greed) for today, with up to a year of daily history. Use as a market-sentiment signal for trading, newsletters or answering how the crypto market feels.",
+   "tags": [
+    "crypto",
+    "sentiment",
+    "fear-greed",
+    "bitcoin",
+    "indicator"
+   ],
+   "input_schema": {
+    "properties": {
+     "days": {
+      "default": 1,
+      "type": "integer",
+      "description": "Days of history (1-365)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "protocol_fees",
+   "route": "/v1/crypto/fees",
+   "price_usd": 0.003,
+   "title": "Protocol Fees & Revenue",
+   "description": "Crypto protocols ranked by fees paid by users or revenue kept (Tether, Circle, Uniswap, Hyperliquid, chains...) over 24h, 7d and 30d, for all chains or one chain. Use for fundamental analysis and protocol valuation.",
+   "tags": [
+    "defi",
+    "fees",
+    "revenue",
+    "fundamentals",
+    "defillama"
+   ],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain name (default all)"
+     },
+     "metric": {
+      "default": "fees",
+      "type": "string",
+      "description": "fees or revenue"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "funding_compare",
+   "route": "/v1/crypto/funding-compare",
+   "price_usd": 0.003,
+   "title": "Perp Funding & OI Across Exchanges",
+   "description": "A coin's perpetual funding rate and open interest on OKX, Bitget, Gate, Kraken Futures and Hyperliquid, annualized side by side, with the widest long/short funding spread. Use for funding arbitrage, crowding and sentiment checks.",
+   "tags": [
+    "crypto",
+    "derivatives",
+    "funding-rate",
+    "open-interest",
+    "arbitrage",
+    "perps"
+   ],
+   "input_schema": {
+    "properties": {
+     "coin": {
+      "default": "BTC",
+      "type": "string",
+      "description": "Coin ticker, e.g. BTC, ETH, SOL"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "futures_basis",
+   "route": "/v1/crypto/futures-basis",
+   "price_usd": 0.003,
+   "title": "Crypto Futures Basis Curve",
+   "description": "Deribit BTC or ETH futures term structure: each expiry's price, premium over the index and annualized basis, plus the perpetual's premium. Use for cash-and-carry yields or sentiment.",
+   "tags": [
+    "crypto",
+    "futures",
+    "basis",
+    "carry",
+    "term-structure",
+    "derivatives"
+   ],
+   "input_schema": {
+    "properties": {
+     "currency": {
+      "default": "BTC",
+      "type": "string",
+      "description": "BTC or ETH"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "hyperliquid_account",
+   "route": "/v1/crypto/hyperliquid-account",
+   "price_usd": 0.003,
+   "title": "Hyperliquid Account Positions",
+   "description": "A Hyperliquid wallet's open perp positions (side, size, entry, value, unrealized PnL, leverage, liquidation price, funding), margin summary and spot balances. Use to track whales or your own account.",
+   "tags": [
+    "crypto",
+    "hyperliquid",
+    "positions",
+    "whales",
+    "perps",
+    "wallet"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "0x wallet address"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "korean_exchange_prices",
+   "route": "/v1/crypto/kr-prices",
+   "price_usd": 0.003,
+   "title": "Korean Exchange Prices",
+   "description": "Price of a coin in KRW on Upbit and Bithumb with 24h change, high/low and volume, plus the kimchi premium versus the global USD price. Use for Korea arbitrage signals and local pricing.",
+   "tags": [
+    "crypto",
+    "korea",
+    "upbit",
+    "bithumb",
+    "kimchi-premium",
+    "arbitrage"
+   ],
+   "input_schema": {
+    "properties": {
+     "symbol": {
+      "default": "BTC",
+      "type": "string",
+      "description": "Coin symbol, e.g. BTC"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "defi_lending_rates",
+   "route": "/v1/crypto/lending",
+   "price_usd": 0.003,
+   "title": "DeFi Lending Rates",
+   "description": "Supply and borrow APYs across DeFi lending markets (Aave, Compound, Morpho, Spark, Venus...) by token, chain or protocol: net borrow rate, utilisation, TVL, total borrowed and max LTV. Sort by supply_apy, borrow_apy (cheapest first) or tvl. Use to find the best place to lend or borrow.",
+   "tags": [
+    "defi",
+    "lending",
+    "borrowing",
+    "apy",
+    "aave",
+    "yield"
+   ],
+   "input_schema": {
+    "properties": {
+     "symbol": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Token symbol, e.g. USDC"
+     },
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain name, e.g. Ethereum, Base"
+     },
+     "project": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Protocol, e.g. aave"
+     },
+     "min_tvl_usd": {
+      "default": 1000000,
+      "type": "number",
+      "description": "Minimum pool TVL (default 1,000,000)"
+     },
+     "sort": {
+      "default": "supply_apy",
+      "type": "string",
+      "description": "supply_apy, borrow_apy or tvl"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_liquidations",
+   "route": "/v1/crypto/liquidations",
+   "price_usd": 0.003,
+   "title": "Crypto Liquidations Feed",
+   "description": "Recent forced liquidations of a coin's USDT perpetual on OKX: time, side, price, size in coin and USD, with totals of longs vs shorts liquidated and the largest ones.",
+   "tags": [
+    "crypto",
+    "liquidations",
+    "derivatives",
+    "perps",
+    "trading"
+   ],
+   "input_schema": {
+    "properties": {
+     "coin": {
+      "default": "BTC",
+      "type": "string",
+      "description": "Coin ticker, e.g. BTC"
+     },
+     "limit": {
+      "default": 50,
+      "type": "integer",
+      "description": "Liquidations to return (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_market_overview",
+   "route": "/v1/crypto/market",
+   "price_usd": 0.003,
+   "title": "Crypto Market Overview",
+   "description": "Total crypto market capitalisation, 24h volume, Bitcoin dominance, 24h change and distance from the all-time high, in one call. Use for a market summary or risk-on/risk-off context.",
+   "tags": [
+    "crypto",
+    "market-cap",
+    "bitcoin-dominance",
+    "market-overview"
+   ],
+   "input_schema": {
+    "properties": {},
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_news",
+   "route": "/v1/crypto/news",
+   "price_usd": 0.003,
+   "title": "Crypto News",
+   "description": "Latest crypto news from CoinDesk, Cointelegraph, Decrypt and The Block in one feed, newest first, with title, link, time, summary and tags; filter by keyword or coin (BTC, ETH, SOL, ETF, Base). Use to explain a price move, brief a trader or monitor a project.",
+   "tags": [
+    "crypto",
+    "news",
+    "bitcoin",
+    "ethereum",
+    "headlines"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Keywords or coin symbols, e.g. ETH or 'stablecoin ETF'"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "CoinDesk, Cointelegraph, Decrypt or The Block"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "1-100, default 20"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_options",
+   "route": "/v1/crypto/options",
+   "price_usd": 0.004,
+   "title": "BTC & ETH Options Board",
+   "description": "Deribit BTC or ETH options: open interest and volume of calls vs puts, put/call ratio, and per expiry the max-pain strike and at-the-money implied volatility, plus the DVOL volatility index.",
+   "tags": [
+    "crypto",
+    "options",
+    "implied-volatility",
+    "max-pain",
+    "deribit",
+    "derivatives"
+   ],
+   "input_schema": {
+    "properties": {
+     "currency": {
+      "default": "BTC",
+      "type": "string",
+      "description": "BTC or ETH"
+     },
+     "expiries": {
+      "default": 6,
+      "type": "integer",
+      "description": "Nearest expiries to list (1-20)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "orderbook_depth",
+   "route": "/v1/crypto/orderbook",
+   "price_usd": 0.003,
+   "title": "Order Book Depth & Slippage",
+   "description": "Spot order book on OKX, Gate or Kraken: best bid/ask, spread in bps, USD depth within 0.5%, 1% and 2% of mid, and the average fill price and slippage to market-buy or sell a given USD size.",
+   "tags": [
+    "crypto",
+    "orderbook",
+    "liquidity",
+    "slippage",
+    "trading",
+    "market-depth"
+   ],
+   "input_schema": {
+    "properties": {
+     "pair": {
+      "default": "BTC-USDT",
+      "type": "string",
+      "description": "Pair, e.g. BTC-USDT or ETH-USD"
+     },
+     "venue": {
+      "default": "okx",
+      "type": "string",
+      "description": "okx, gate or kraken"
+     },
+     "size_usd": {
+      "default": 100000,
+      "type": "number",
+      "description": "Order size in quote currency for slippage"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "perp_funding_rates",
+   "route": "/v1/crypto/perps",
+   "price_usd": 0.003,
+   "title": "Perp Funding Rates & Open Interest",
+   "description": "Perpetual futures on Hyperliquid: hourly funding rate and APR, open interest, 24h volume, mark and oracle price, max leverage, for chosen coins or ranked by open interest, funding or volume. Use for funding arbitrage, leverage sentiment and basis trades.",
+   "tags": [
+    "crypto",
+    "perps",
+    "funding-rate",
+    "open-interest",
+    "hyperliquid",
+    "derivatives"
+   ],
+   "input_schema": {
+    "properties": {
+     "coins": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated coins, e.g. BTC,ETH,SOL (default all)"
+     },
+     "sort": {
+      "default": "open_interest",
+      "type": "string",
+      "description": "open_interest, funding, negative_funding or volume"
+     },
+     "limit": {
+      "default": 30,
+      "type": "integer",
+      "description": "Maximum number of results (1-300)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_token_prices",
+   "route": "/v1/crypto/price",
+   "price_usd": 0.003,
+   "title": "Crypto Token Prices",
+   "description": "Current USD price and 24h change for up to 20 crypto tokens per call, by symbol (BTC, ETH, SOL, PEPE), CoinGecko id or chain:contract address (base:0x833589..., ethereum:0x...). Covers thousands of coins and on-chain tokens. Use for portfolio valuation, trading decisions or answering what a token costs now.",
+   "tags": [
+    "crypto",
+    "price",
+    "token",
+    "defi",
+    "market-data"
+   ],
+   "input_schema": {
+    "properties": {
+     "tokens": {
+      "type": "string",
+      "description": "Comma-separated symbols, CoinGecko ids or chain:address, max 20"
+     }
+    },
+    "required": [
+     "tokens"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_price_history",
+   "route": "/v1/crypto/price-history",
+   "price_usd": 0.003,
+   "title": "Crypto Price History",
+   "description": "Daily USD price history of any token (symbol, CoinGecko id or chain:address) for up to 365 days with high, low and % change, or its exact price on a past date. Use for charts, backtests, cost basis or 'what was ETH worth on...' questions.",
+   "tags": [
+    "crypto",
+    "price",
+    "history",
+    "chart",
+    "backtest"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "Symbol, CoinGecko id or chain:address"
+     },
+     "days": {
+      "default": 30,
+      "type": "integer",
+      "description": "Days of daily prices (2-365)"
+     },
+     "on": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Single date YYYY-MM-DD instead of a range"
+     }
+    },
+    "required": [
+     "token"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "defi_protocols_tvl",
+   "route": "/v1/crypto/protocols",
+   "price_usd": 0.003,
+   "title": "DeFi Protocol TVL",
+   "description": "DeFi protocols by total value locked (DefiLlama): look up one protocol (aave, uniswap, lido) or rank them by chain and category (Lending, Dexs, Liquid Staking, Bridge...) with TVL, 1d/7d change, market cap and chains. Use for DeFi research and protocol comparisons.",
+   "tags": [
+    "defi",
+    "tvl",
+    "defillama",
+    "protocols",
+    "research"
+   ],
+   "input_schema": {
+    "properties": {
+     "protocol": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Protocol name or slug contains"
+     },
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain name, e.g. Base"
+     },
+     "category": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "DefiLlama category, e.g. Lending"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-200)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "solana_balance",
+   "route": "/v1/crypto/solana-balance",
+   "price_usd": 0.003,
+   "title": "Solana Wallet Balance",
+   "description": "SOL and SPL token balances of a Solana wallet (Token and Token-2022), with USD values and total where a price is known. Use to check a Solana wallet or confirm a payment arrived.",
+   "tags": [
+    "solana",
+    "wallet",
+    "balance",
+    "spl",
+    "portfolio"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Solana wallet address"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "stablecoins_supply",
+   "route": "/v1/crypto/stablecoins",
+   "price_usd": 0.003,
+   "title": "Stablecoin Supply",
+   "description": "Stablecoins ranked by circulating supply (USDT, USDC, USDe, DAI...) with 1-day, 7-day and 30-day supply change, peg price, mechanism and main chains, plus total USD stablecoin supply. Use to track liquidity flowing into crypto.",
+   "tags": [
+    "stablecoins",
+    "usdc",
+    "usdt",
+    "defi",
+    "liquidity"
+   ],
+   "input_schema": {
+    "properties": {
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "exchange_ticker",
+   "route": "/v1/crypto/ticker",
+   "price_usd": 0.003,
+   "title": "Exchange Spot Ticker",
+   "description": "Live spot price of a crypto pair on Coinbase and Kraken: bid, ask, last, 24h open/high/low and volume, and the price gap between the two exchanges. Use for an exact executable price or a quick arbitrage check.",
+   "tags": [
+    "crypto",
+    "ticker",
+    "coinbase",
+    "kraken",
+    "spot",
+    "price"
+   ],
+   "input_schema": {
+    "properties": {
+     "pair": {
+      "default": "BTC-USD",
+      "type": "string",
+      "description": "Pair such as BTC-USD, ETH/EUR or SOL"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "erc20_token_info",
+   "route": "/v1/crypto/token-info",
+   "price_usd": 0.003,
+   "title": "ERC-20 Token Info",
+   "description": "Facts about an ERC-20 contract read from the chain (Ethereum, Base, Arbitrum, Optimism, Polygon): name, symbol, decimals, total supply, USD price and fully diluted value. Use to verify a token address before trading or integrating it.",
+   "tags": [
+    "crypto",
+    "erc20",
+    "token",
+    "evm",
+    "contract"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Token contract address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_top_coins",
+   "route": "/v1/crypto/top-coins",
+   "price_usd": 0.003,
+   "title": "Top Crypto by Market Cap",
+   "description": "Top cryptocurrencies by market cap (up to 250) with price, 1h/24h/7d change, volume, all-time high and supply, optionally within a CoinGecko category (layer-1, meme-token, artificial-intelligence, real-world-assets). Use for market overviews and screeners.",
+   "tags": [
+    "crypto",
+    "market-cap",
+    "ranking",
+    "screener",
+    "market-data"
+   ],
+   "input_schema": {
+    "properties": {
+     "limit": {
+      "default": 50,
+      "type": "integer",
+      "description": "Maximum number of results (1-250)"
+     },
+     "category": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "CoinGecko category id, e.g. meme-token"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "crypto_trending",
+   "route": "/v1/crypto/trending",
+   "price_usd": 0.003,
+   "title": "Trending Crypto Coins",
+   "description": "Coins trending on CoinGecko right now (most searched in 24h) with price, 24h change, market cap and volume, plus trending categories. Use to spot what retail is looking at or find narratives gaining attention.",
+   "tags": [
+    "crypto",
+    "trending",
+    "coingecko",
+    "memecoins",
+    "market-data"
+   ],
+   "input_schema": {
+    "properties": {},
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_transaction_status",
+   "route": "/v1/crypto/tx",
+   "price_usd": 0.003,
+   "title": "EVM Transaction Status",
+   "description": "Status of an EVM transaction by hash: pending, success or failed, block, confirmations, timestamp, from/to, value, gas used, fee (plus L1 fee on Base/Optimism) and ERC-20 token transfers. Searches Ethereum, Base, Arbitrum, Optimism and Polygon if no chain is given. Use to confirm a payment settled.",
+   "tags": [
+    "crypto",
+    "transaction",
+    "evm",
+    "base",
+    "ethereum",
+    "payments"
+   ],
+   "input_schema": {
+    "properties": {
+     "hash": {
+      "type": "string",
+      "description": "Transaction hash, 0x + 64 hex"
+     },
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "ethereum, base, arbitrum, optimism or polygon (default: search all)"
+     }
+    },
+    "required": [
+     "hash"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "whale_transfers",
+   "route": "/v1/crypto/whale-transfers",
+   "price_usd": 0.003,
+   "title": "Whale Transfers",
+   "description": "Whale alerts: the largest recent ERC-20 transfers (default USDC over $1M) in the latest blocks, with sender, receiver, amount and mint/burn flag. Works for USDC, USDT, DAI or any token on 5 EVM chains.",
+   "tags": [
+    "whale-alert",
+    "stablecoins",
+    "flows",
+    "onchain",
+    "monitoring"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "default": "USDC",
+      "type": "string",
+      "description": "Token address or USDC/USDT/DAI"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "min_amount": {
+      "default": 1000000,
+      "type": "number",
+      "description": "Minimum amount in token units"
+     },
+     "blocks": {
+      "default": 300,
+      "type": "integer",
+      "description": "Recent blocks to scan (1-2000)"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "defi_yields",
+   "route": "/v1/crypto/yields",
+   "price_usd": 0.003,
+   "title": "DeFi Yields",
+   "description": "Best DeFi yields right now: lending, staking and liquidity pools across all chains and protocols, with APY (base + rewards), 30-day mean APY, TVL, stablecoin flag and impermanent-loss risk. Filter by chain, protocol, token and minimum TVL; sort by APY or TVL. Use to find where to earn on USDC, ETH etc.",
+   "tags": [
+    "defi",
+    "yield",
+    "apy",
+    "staking",
+    "lending",
+    "stablecoin"
+   ],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain name, e.g. Ethereum, Base, Arbitrum, Solana"
+     },
+     "project": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Protocol slug contains, e.g. aave, morpho, lido"
+     },
+     "symbol": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Token symbol in the pool, e.g. USDC"
+     },
+     "stablecoin": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Only stablecoin pools (true) or only non-stable (false)"
+     },
+     "min_tvl_usd": {
+      "default": 1000000,
+      "type": "number",
+      "description": "Minimum TVL in USD (default 1,000,000)"
+     },
+     "sort": {
+      "default": "apy",
+      "type": "string",
+      "description": "apy, tvl or apy_30d"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "1-100, default 20"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "aave_health_factor",
+   "route": "/v1/defi/aave-health",
+   "price_usd": 0.003,
+   "title": "Aave Health Factor",
+   "description": "Aave V3 position of any wallet: collateral, debt and remaining borrowing power in USD, LTV, liquidation threshold, health factor and how far collateral can fall before liquidation. Use for liquidation alerts.",
+   "tags": [
+    "aave",
+    "defi",
+    "liquidation",
+    "health-factor",
+    "lending"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Wallet address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "defi_tvl_movers",
+   "route": "/v1/defi/tvl-movers",
+   "price_usd": 0.003,
+   "title": "DeFi TVL Gainers & Losers",
+   "description": "DeFi protocols whose TVL grew or shrank most over 1 hour, 1 day or 7 days, filtered by chain, category and minimum TVL, with net flow. Use to see where capital is moving.",
+   "tags": [
+    "defi",
+    "tvl",
+    "flows",
+    "defillama",
+    "crypto"
+   ],
+   "input_schema": {
+    "properties": {
+     "period": {
+      "default": "1d",
+      "type": "string",
+      "description": "1h, 1d or 7d"
+     },
+     "chain": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Chain, e.g. Base"
+     },
+     "category": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Category, e.g. Lending"
+     },
+     "min_tvl": {
+      "default": 10000000,
+      "type": "number",
+      "description": "Minimum TVL in USD"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Rows each side (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "rust_crate",
+   "route": "/v1/dev/crate",
+   "price_usd": 0.003,
+   "title": "Rust Crate Info",
+   "description": "A Rust crate on crates.io: latest stable version, description, license, total and 90-day downloads, repository, docs, minimum Rust version and dates. Use to choose or audit a Rust dependency.",
+   "tags": [
+    "rust",
+    "crates",
+    "packages",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "package": {
+      "type": "string",
+      "description": "Crate name, e.g. serde"
+     }
+    },
+    "required": [
+     "package"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "cron_explain",
+   "route": "/v1/dev/cron",
+   "price_usd": 0.003,
+   "title": "Cron Expression Explainer",
+   "description": "Explain a cron expression (5 fields, names like mon-fri, or @daily) in plain English and list its next run times in any UTC offset. Use to check schedules before deploying jobs.",
+   "tags": [
+    "cron",
+    "scheduling",
+    "devops",
+    "developer",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "expression": {
+      "type": "string",
+      "description": "Cron expression"
+     },
+     "count": {
+      "default": 5,
+      "type": "integer",
+      "description": "Next runs to list (1-20)"
+     },
+     "timezone_offset_hours": {
+      "default": 0,
+      "type": "number",
+      "description": "UTC offset of the schedule, e.g. 4"
+     }
+    },
+    "required": [
+     "expression"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "cve_details",
+   "route": "/v1/dev/cve",
+   "price_usd": 0.003,
+   "title": "CVE Details",
+   "description": "Details of a CVE by id: description, CVSS score, severity and vector, CWE, whether it is in CISA's Known Exploited list, affected products (CPE) and references, from NVD with CVE.org fallback. Use for security triage and patch prioritisation.",
+   "tags": [
+    "security",
+    "cve",
+    "nvd",
+    "vulnerability",
+    "cvss"
+   ],
+   "input_schema": {
+    "properties": {
+     "cve_id": {
+      "type": "string",
+      "description": "CVE id, e.g. CVE-2021-44228"
+     }
+    },
+    "required": [
+     "cve_id"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "dockerfile_lint",
+   "route": "/v1/dev/dockerfile-lint",
+   "price_usd": 0.003,
+   "title": "Dockerfile Linter",
+   "description": "Lint a Dockerfile for security and best practice: unpinned or latest images, running as root, secrets in ENV/ARG, curl piped to sh, ADD of URLs, apt and pip caches, sudo, chmod 777, missing HEALTHCHECK. Scored.",
+   "tags": [
+    "docker",
+    "devops",
+    "security",
+    "lint",
+    "containers"
+   ],
+   "input_schema": {
+    "properties": {
+     "dockerfile": {
+      "type": "string",
+      "description": "Dockerfile contents"
+     }
+    },
+    "required": [
+     "dockerfile"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "npm_package",
+   "route": "/v1/dev/npm",
+   "price_usd": 0.003,
+   "title": "npm Package Info",
+   "description": "An npm package's latest version, description, license, repository, dependencies, peer dependencies, TypeScript types, size, publish dates, deprecation and weekly downloads. Use to choose or audit a JavaScript dependency.",
+   "tags": [
+    "npm",
+    "javascript",
+    "packages",
+    "developer",
+    "dependencies"
+   ],
+   "input_schema": {
+    "properties": {
+     "package": {
+      "type": "string",
+      "description": "Package name, e.g. react or @types/node"
+     }
+    },
+    "required": [
+     "package"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "pypi_package",
+   "route": "/v1/dev/pypi",
+   "price_usd": 0.003,
+   "title": "PyPI Package Info",
+   "description": "A Python package on PyPI: latest version, summary, license, required Python, dependencies, release date, project links and daily/weekly/monthly downloads. Use to choose or audit a Python dependency.",
+   "tags": [
+    "pypi",
+    "python",
+    "packages",
+    "developer",
+    "dependencies"
+   ],
+   "input_schema": {
+    "properties": {
+     "package": {
+      "type": "string",
+      "description": "Package name, e.g. requests"
+     }
+    },
+    "required": [
+     "package"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "package_vulnerabilities",
+   "route": "/v1/dev/vulns",
+   "price_usd": 0.003,
+   "title": "Package Vulnerabilities (OSV)",
+   "description": "Known security vulnerabilities for an open-source package from OSV (GitHub advisories, PyPA, RustSec, Go): id, CVE aliases, summary, severity, fixed versions, for all versions or one version. Ecosystems: npm, PyPI, Go, Maven, crates.io, RubyGems, NuGet, Packagist. Use before installing or upgrading.",
+   "tags": [
+    "security",
+    "vulnerabilities",
+    "osv",
+    "dependencies",
+    "supply-chain"
+   ],
+   "input_schema": {
+    "properties": {
+     "package": {
+      "type": "string",
+      "description": "Package name"
+     },
+     "ecosystem": {
+      "default": "npm",
+      "type": "string",
+      "description": "npm, pypi, go, maven, cargo, rubygems, nuget, packagist"
+     },
+     "version": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Exact version to check (optional)"
+     }
+    },
+    "required": [
+     "package"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "solar_resource",
+   "route": "/v1/energy/solar-resource",
+   "price_usd": 0.003,
+   "title": "Solar Resource & PV Yield",
+   "description": "Long-term solar irradiance for any location on Earth (NASA POWER, 2001-2025) by month, with temperature, wind and an estimated PV yield, specific yield and capacity factor for a system size. Use to screen solar sites.",
+   "tags": [
+    "solar",
+    "energy",
+    "pv",
+    "irradiance",
+    "renewables",
+    "nasa"
+   ],
+   "input_schema": {
+    "properties": {
+     "lat": {
+      "type": "number",
+      "description": "Latitude"
+     },
+     "lon": {
+      "type": "number",
+      "description": "Longitude"
+     },
+     "system_kw": {
+      "default": 1.0,
+      "type": "number",
+      "description": "PV system size in kWp"
+     },
+     "performance_ratio": {
+      "default": 0.8,
+      "type": "number",
+      "description": "System performance ratio 0.3-1 (default 0.8)"
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "erc20_allowance",
+   "route": "/v1/evm/allowance",
+   "price_usd": 0.003,
+   "title": "ERC-20 Allowance",
+   "description": "How much a spender (router, Permit2, protocol) is approved to move from an owner's ERC-20 balance, with an unlimited-approval flag. Use to check approvals before a swap or to audit risky approvals.",
+   "tags": [
+    "evm",
+    "erc20",
+    "allowance",
+    "approvals",
+    "security"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "Token address or USDC/USDT/DAI"
+     },
+     "owner": {
+      "type": "string",
+      "description": "Owner address"
+     },
+     "spender": {
+      "type": "string",
+      "description": "Spender address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "token",
+     "owner",
+     "spender"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_block",
+   "route": "/v1/evm/block",
+   "price_usd": 0.003,
+   "title": "EVM Block",
+   "description": "An EVM block by number or tag (latest, finalized, safe): hash, parent, time, miner, gas used and limit, base fee, size and its transaction hashes.",
+   "tags": [
+    "evm",
+    "block",
+    "blockchain",
+    "explorer"
+   ],
+   "input_schema": {
+    "properties": {
+     "block": {
+      "default": "latest",
+      "type": "string",
+      "description": "Block number, 0x hex or latest/safe/finalized"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "contract_info",
+   "route": "/v1/evm/contract",
+   "price_usd": 0.003,
+   "title": "Contract Inspector",
+   "description": "What is at an EVM address: wallet (with EIP-7702 delegate) or contract, bytecode size, token standard (ERC-20/721/1155), name, symbol, decimals, supply, owner() and proxy implementation. Use before interacting with an unknown address.",
+   "tags": [
+    "evm",
+    "contracts",
+    "token",
+    "security",
+    "due-diligence"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "0x address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "contract_abi",
+   "route": "/v1/evm/contract-abi",
+   "price_usd": 0.003,
+   "title": "Verified Contract ABI (Sourcify)",
+   "description": "ABI and readable function/event signatures of a verified smart contract from Sourcify, with contract name, compiler, licence, proxy implementation and deployer. Use before calling or decoding a contract.",
+   "tags": [
+    "evm",
+    "abi",
+    "smart-contracts",
+    "sourcify",
+    "solidity"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Contract address (0x...)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism, polygon, bsc, avalanche, gnosis, linea, scroll, zksync or a chain id"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "decode_calldata",
+   "route": "/v1/evm/decode-calldata",
+   "price_usd": 0.003,
+   "title": "Calldata Decoder",
+   "description": "Decode EVM transaction input data: looks up the 4-byte function selector and decodes every argument (addresses, amounts, arrays). Use to see what a transaction or signing request will really do.",
+   "tags": [
+    "evm",
+    "calldata",
+    "decoder",
+    "security",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "data": {
+      "type": "string",
+      "description": "0x calldata"
+     }
+    },
+    "required": [
+     "data"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "erc20_balance",
+   "route": "/v1/evm/erc20-balance",
+   "price_usd": 0.003,
+   "title": "ERC-20 Token Balance",
+   "description": "Balance of any ERC-20 token (contract address, or USDC/USDT/DAI by symbol) for a wallet or ENS name on Ethereum, Base, Arbitrum, Optimism or Polygon: raw and decimal-adjusted amount, symbol and decimals; up to 20 tokens per call. Use before transfers, swaps or payments.",
+   "tags": [
+    "evm",
+    "erc20",
+    "balance",
+    "wallet",
+    "tokens",
+    "usdc"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Wallet address or ENS name"
+     },
+     "tokens": {
+      "default": "USDC",
+      "type": "string",
+      "description": "Comma-separated token addresses or USDC/USDT/DAI"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "erc20_transfers",
+   "route": "/v1/evm/erc20-transfers",
+   "price_usd": 0.003,
+   "title": "ERC-20 Transfers",
+   "description": "Recent ERC-20 Transfer events for a token, a wallet (in and out) or both over the last N blocks (max 5,000), with sender, receiver and amount in token units. Use to confirm incoming payments or watch whale moves.",
+   "tags": [
+    "evm",
+    "erc20",
+    "transfers",
+    "payments",
+    "monitoring"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Token address or USDC/USDT/DAI"
+     },
+     "wallet": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Wallet address"
+     },
+     "blocks": {
+      "default": 500,
+      "type": "integer",
+      "description": "How many recent blocks (1-5000)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "limit": {
+      "default": 100,
+      "type": "integer",
+      "description": "Maximum number of results (1-500)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "estimate_gas",
+   "route": "/v1/evm/estimate-gas",
+   "price_usd": 0.003,
+   "title": "Gas Estimate",
+   "description": "Estimate the gas a transaction will use (eth_estimateGas) and its cost at the current gas price, with a 20% buffer; fails clearly when the call would revert. Use before signing.",
+   "tags": [
+    "evm",
+    "gas",
+    "estimate",
+    "transactions",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "to": {
+      "type": "string",
+      "description": "Recipient or contract"
+     },
+     "from_address": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Sender (optional)"
+     },
+     "value_eth": {
+      "default": 0,
+      "type": "number",
+      "description": "Native amount to send"
+     },
+     "data": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "0x calldata (optional)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "to"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "event_logs",
+   "route": "/v1/evm/events",
+   "price_usd": 0.003,
+   "title": "Contract Event Logs",
+   "description": "Event logs a contract emitted (eth_getLogs), filtered by event signature such as Transfer(address,address,uint256) or a topic hash, over a block range (max 5,000 blocks, default last 100). Use to monitor swaps, mints or governance.",
+   "tags": [
+    "evm",
+    "events",
+    "logs",
+    "monitoring",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Contract address"
+     },
+     "event": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Event signature or topic hash"
+     },
+     "from_block": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Start block"
+     },
+     "to_block": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "End block (default latest)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "limit": {
+      "default": 100,
+      "type": "integer",
+      "description": "Maximum number of results (1-500)"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "evm_network_info",
+   "route": "/v1/evm/network",
+   "price_usd": 0.003,
+   "title": "EVM Network Info",
+   "description": "Live state of an EVM network: chain ID, latest block number and age, gas price, base and priority fee, block gas use and tx count. Use as a health check before sending transactions.",
+   "tags": [
+    "evm",
+    "network",
+    "block-number",
+    "gas",
+    "chain-id"
+   ],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "default": "base",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "nft_metadata",
+   "route": "/v1/evm/nft-metadata",
+   "price_usd": 0.003,
+   "title": "NFT Metadata",
+   "description": "Metadata of an ERC-721 or ERC-1155 token: token URI resolved from IPFS, Arweave, data URI or https into name, description, image link and traits. Use for NFT displays, rarity or appraisal.",
+   "tags": [
+    "nft",
+    "metadata",
+    "ipfs",
+    "erc721",
+    "erc1155"
+   ],
+   "input_schema": {
+    "properties": {
+     "contract": {
+      "type": "string",
+      "description": "NFT contract"
+     },
+     "token_id": {
+      "type": "string",
+      "description": "Token ID"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "contract",
+     "token_id"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "nft_owner",
+   "route": "/v1/evm/nft-owner",
+   "price_usd": 0.003,
+   "title": "NFT Owner",
+   "description": "Current owner of an ERC-721 NFT by contract and token ID. Use to verify ownership for token gating, sales or airdrops.",
+   "tags": [
+    "nft",
+    "erc721",
+    "owner",
+    "evm",
+    "token-gating"
+   ],
+   "input_schema": {
+    "properties": {
+     "contract": {
+      "type": "string",
+      "description": "NFT contract"
+     },
+     "token_id": {
+      "type": "string",
+      "description": "Token ID"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "contract",
+     "token_id"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "account_nonce",
+   "route": "/v1/evm/nonce",
+   "price_usd": 0.003,
+   "title": "Account Nonce",
+   "description": "Next transaction nonce of an EVM address (confirmed and pending), pending tx count, native balance, contract flag and EIP-7702 delegate. Use before signing or to detect stuck transactions.",
+   "tags": [
+    "evm",
+    "nonce",
+    "wallet",
+    "transactions",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "0x address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "pending_transactions",
+   "route": "/v1/evm/pending",
+   "price_usd": 0.003,
+   "title": "Pending Transactions & Tips",
+   "description": "An EVM chain's pending block (Ethereum, Base, Arbitrum, Optimism, Polygon): transaction count, priority-fee and gas-price percentiles, most-called contracts and largest native transfers. Use to price gas.",
+   "tags": [
+    "evm",
+    "mempool",
+    "gas",
+    "ethereum",
+    "base",
+    "transactions"
+   ],
+   "input_schema": {
+    "properties": {
+     "chain": {
+      "default": "base",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Largest transfers to list (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "proxy_check",
+   "route": "/v1/evm/proxy",
+   "price_usd": 0.003,
+   "title": "Proxy Detector",
+   "description": "Detect upgradeable proxies: EIP-1967 transparent/UUPS, beacon, EIP-1822, ZeppelinOS, EIP-1167 clones and Safe-style proxies, returning implementation, admin and beacon addresses. Use for audits and to fetch the real ABI.",
+   "tags": [
+    "evm",
+    "proxy",
+    "upgradeable",
+    "security",
+    "audit"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Contract address"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "read_contract",
+   "route": "/v1/evm/read",
+   "price_usd": 0.003,
+   "title": "Read Contract",
+   "description": "Call any read-only contract function without a transaction or ABI file: give the signature with return types, e.g. balanceOf(address)(uint256) or getReserves()(uint112,uint112,uint32), plus arguments; returns decoded values.",
+   "tags": [
+    "evm",
+    "eth-call",
+    "contracts",
+    "developer",
+    "defi"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Contract address"
+     },
+     "signature": {
+      "type": "string",
+      "description": "name(argTypes)(returnTypes)"
+     },
+     "args": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated arguments (arrays as JSON)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "block": {
+      "default": "latest",
+      "type": "string",
+      "description": "Block number or latest"
+     }
+    },
+    "required": [
+     "address",
+     "signature"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "tx_receipt",
+   "route": "/v1/evm/receipt",
+   "price_usd": 0.003,
+   "title": "Transaction Receipt",
+   "description": "Receipt of a mined EVM transaction: success or revert, gas used, effective gas price, fee (and L2 L1 fee), created contract and event logs with Transfer and Approval decoded. Use to confirm a payment or swap.",
+   "tags": [
+    "evm",
+    "transaction",
+    "receipt",
+    "logs",
+    "explorer"
+   ],
+   "input_schema": {
+    "properties": {
+     "hash": {
+      "type": "string",
+      "description": "Transaction hash"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "hash"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "storage_slot",
+   "route": "/v1/evm/storage",
+   "price_usd": 0.003,
+   "title": "Contract Storage Slot",
+   "description": "Read a raw storage slot of any contract (eth_getStorageAt), also decoded as uint and address. Use for proxy slots, packed variables and debugging.",
+   "tags": [
+    "evm",
+    "storage",
+    "contracts",
+    "developer",
+    "debugging"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Contract address"
+     },
+     "slot": {
+      "type": "string",
+      "description": "Slot as decimal or 0x hex"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "block": {
+      "default": "latest",
+      "type": "string",
+      "description": "Block number or latest"
+     }
+    },
+    "required": [
+     "address",
+     "slot"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "token_risk_check",
+   "route": "/v1/evm/token-risk",
+   "price_usd": 0.004,
+   "title": "Token Risk Check",
+   "description": "Heuristic rug and honeypot risk check of an ERC-20 before buying: owner and renouncement, upgradeable proxy, mint, pause, blacklist, fee and trading switches found in the bytecode, readable buy/sell tax, and a 0-100 risk score with flags. Ethereum, Base, Arbitrum, Optimism, Polygon.",
+   "tags": [
+    "token-security",
+    "honeypot",
+    "rug-check",
+    "erc20",
+    "defi",
+    "risk"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "Token contract address"
+     },
+     "chain": {
+      "default": "base",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "token"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "token_total_supply",
+   "route": "/v1/evm/total-supply",
+   "price_usd": 0.003,
+   "title": "Token Total Supply",
+   "description": "Total supply, name, symbol and decimals of an ERC-20 or ERC-721 contract, read on-chain. Use for market-cap math, supply checks and token due diligence.",
+   "tags": [
+    "evm",
+    "erc20",
+    "supply",
+    "tokens",
+    "onchain"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "Token address or USDC/USDT/DAI"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "token"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "uniswap_price",
+   "route": "/v1/evm/uniswap-price",
+   "price_usd": 0.003,
+   "title": "Uniswap v3 On-Chain Price",
+   "description": "Spot price of a token pair read directly from the deepest Uniswap v3 pool on Ethereum, Base, Arbitrum, Optimism or Polygon: price, inverse, fee tier, tick and liquidity. Tokens by symbol or address.",
+   "tags": [
+    "uniswap",
+    "dex",
+    "price",
+    "evm",
+    "defi",
+    "onchain"
+   ],
+   "input_schema": {
+    "properties": {
+     "token_in": {
+      "type": "string",
+      "description": "Token to price, e.g. WETH or 0x..."
+     },
+     "token_out": {
+      "default": "USDC",
+      "type": "string",
+      "description": "Quote token (default USDC)"
+     },
+     "chain": {
+      "default": "ethereum",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     },
+     "fee": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Fee tier 100, 500, 3000 or 10000 (default: deepest pool)"
+     }
+    },
+    "required": [
+     "token_in"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "central_bank_rates",
+   "route": "/v1/finance/central-bank-rates",
+   "price_usd": 0.003,
+   "title": "Central Bank Policy Rates",
+   "description": "Current policy interest rates of about 40 central banks (Fed, ECB, BoE, BoJ, PBoC, SNB, RBI...) with the date of the latest value, highest first, from the BIS. Filter by country or currency code.",
+   "tags": [
+    "interest-rates",
+    "central-banks",
+    "macro",
+    "fed",
+    "ecb"
+   ],
+   "input_schema": {
+    "properties": {
+     "countries": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated country (US, XM) or currency (USD, EUR) codes"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "economic_calendar",
+   "route": "/v1/finance/econ-calendar",
+   "price_usd": 0.003,
+   "title": "Economic Calendar",
+   "description": "This week's macroeconomic calendar: CPI, jobs, GDP, PMIs and central-bank decisions with time (UTC), currency, impact, forecast and previous value. Filter by impact (High, Medium, Low) and currency.",
+   "tags": [
+    "economic-calendar",
+    "macro",
+    "forex",
+    "events",
+    "trading"
+   ],
+   "input_schema": {
+    "properties": {
+     "impact": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": "High",
+      "description": "Comma-separated impacts (default High)"
+     },
+     "currency": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Currency, e.g. USD"
+     },
+     "days": {
+      "default": 7,
+      "type": "integer",
+      "description": "Days ahead to include (default 7)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "eurostat_indicators",
+   "route": "/v1/finance/eurostat",
+   "price_usd": 0.003,
+   "title": "EU Economic Indicators (Eurostat)",
+   "description": "Latest EU and country economic indicators from Eurostat: HICP inflation, unemployment, GDP growth, consumer confidence, government debt and 10-year bond yields, for EU27, the euro area and 30+ countries.",
+   "tags": [
+    "eurostat",
+    "economics",
+    "inflation",
+    "eu",
+    "macro",
+    "unemployment"
+   ],
+   "input_schema": {
+    "properties": {
+     "indicator": {
+      "default": "inflation",
+      "type": "string",
+      "description": "inflation, unemployment, gdp_growth, consumer_confidence, government_debt or bond_yield_10y"
+     },
+     "countries": {
+      "default": "EU27_2020,DE,FR,IT,ES",
+      "type": "string",
+      "description": "Comma-separated codes, e.g. EU,DE,FR"
+     },
+     "periods": {
+      "default": 6,
+      "type": "integer",
+      "description": "Latest periods per country (1-60)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "fred_series",
+   "route": "/v1/finance/fred",
+   "price_usd": 0.003,
+   "title": "US Economic Data (FRED)",
+   "description": "Any FRED economic time series by id or alias: CPI, core PCE, unemployment, payrolls, GDP, fed funds, SOFR, Treasury yields, mortgage rates, M2, oil, VIX, jobless claims... Latest value, change, 1-year % change and history. Use for macro analysis and economic questions.",
+   "tags": [
+    "finance",
+    "macro",
+    "economics",
+    "fred",
+    "inflation",
+    "rates"
+   ],
+   "input_schema": {
+    "properties": {
+     "series": {
+      "type": "string",
+      "description": "FRED id (CPIAUCSL) or alias: cpi, unemployment, gdp, fed_funds, 10y, oil..."
+     },
+     "start": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Start date YYYY-MM-DD"
+     },
+     "end": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "End date YYYY-MM-DD"
+     },
+     "limit": {
+      "default": 24,
+      "type": "integer",
+      "description": "Observations to return, latest last (1-1000)"
+     }
+    },
+    "required": [
+     "series"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "fx_rates",
+   "route": "/v1/finance/fx",
+   "price_usd": 0.003,
+   "title": "Currency Exchange Rates",
+   "description": "Official ECB reference exchange rates for about 35 currencies (USD, EUR, GBP, JPY, CNY, INR, AED, SAR and more) for today or any date since 1999, from any base currency, with optional amount conversion. Use to convert prices, invoices or salaries between currencies.",
+   "tags": [
+    "finance",
+    "fx",
+    "currency",
+    "exchange-rates",
+    "conversion"
+   ],
+   "input_schema": {
+    "properties": {
+     "base": {
+      "default": "USD",
+      "type": "string",
+      "description": "Base currency, default USD"
+     },
+     "symbols": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated target currencies (default all)"
+     },
+     "date": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "YYYY-MM-DD (default latest; weekends use the previous fixing)"
+     },
+     "amount": {
+      "default": 1,
+      "type": "number",
+      "description": "Amount to convert, default 1"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "fx_carry_ranking",
+   "route": "/v1/finance/fx-carry",
+   "price_usd": 0.003,
+   "title": "FX Carry Trade Ranking",
+   "description": "FX carry trade ranking from central-bank policy rates: currency pairs ranked by interest-rate differential, optionally for one funding currency such as JPY or CHF.",
+   "tags": [
+    "forex",
+    "carry-trade",
+    "interest-rates",
+    "macro",
+    "trading"
+   ],
+   "input_schema": {
+    "properties": {
+     "funding": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Funding currency, e.g. JPY (optional)"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "iban_validate",
+   "route": "/v1/finance/iban",
+   "price_usd": 0.003,
+   "title": "IBAN Validation",
+   "description": "Validate an IBAN: country, correct length, ISO 13616 checksum, bank code and BBAN, with a reason when invalid (likely typo, wrong length). Works offline for about 80 countries. Use before sending a bank transfer or saving payout details.",
+   "tags": [
+    "iban",
+    "banking",
+    "payments",
+    "validation"
+   ],
+   "input_schema": {
+    "properties": {
+     "iban": {
+      "type": "string",
+      "description": "IBAN, spaces allowed"
+     }
+    },
+    "required": [
+     "iban"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "lei_lookup",
+   "route": "/v1/finance/lei",
+   "price_usd": 0.003,
+   "title": "Company LEI Lookup",
+   "description": "Look up legal entities in the global LEI register (GLEIF) by company name or 20-character LEI: exact legal name, status, legal form, jurisdiction, registration number, address and LEI renewal date. Use for KYC, counterparty checks and company identification.",
+   "tags": [
+    "kyc",
+    "lei",
+    "companies",
+    "compliance",
+    "registry"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Company name or LEI code"
+     },
+     "country": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "ISO country filter, e.g. US"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "loan_calculator",
+   "route": "/v1/finance/loan",
+   "price_usd": 0.003,
+   "title": "Loan & Mortgage Calculator",
+   "description": "Amortizing loan or mortgage: periodic payment, total interest, payoff date, effect of extra payments and a yearly or full payment schedule. Any payment frequency.",
+   "tags": [
+    "loan",
+    "mortgage",
+    "calculator",
+    "finance",
+    "amortization"
+   ],
+   "input_schema": {
+    "properties": {
+     "principal": {
+      "type": "number",
+      "description": "Amount borrowed"
+     },
+     "annual_rate_pct": {
+      "type": "number",
+      "description": "Annual interest rate in %"
+     },
+     "years": {
+      "type": "number",
+      "description": "Term in years"
+     },
+     "payments_per_year": {
+      "default": 12,
+      "type": "integer",
+      "description": "1, 2, 4, 12, 24, 26 or 52"
+     },
+     "extra_payment": {
+      "default": 0,
+      "type": "number",
+      "description": "Extra principal paid each period"
+     },
+     "start_date": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "First period YYYY-MM-DD"
+     },
+     "schedule": {
+      "default": "yearly",
+      "type": "string",
+      "description": "none, yearly or full"
+     }
+    },
+    "required": [
+     "principal",
+     "annual_rate_pct",
+     "years"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "markets_snapshot",
+   "route": "/v1/finance/markets",
+   "price_usd": 0.003,
+   "title": "Macro Market Snapshot",
+   "description": "Latest daily values of the dollar index, Fed funds, the Treasury curve (3m-30y) and 10y-2y spread, breakeven inflation, mortgage rates, WTI and Brent oil, natural gas and EUR, GBP, JPY and CNY rates, with 1-day, 1-week and 1-month changes.",
+   "tags": [
+    "finance",
+    "markets",
+    "rates",
+    "treasury",
+    "oil",
+    "macro",
+    "fx"
+   ],
+   "input_schema": {
+    "properties": {},
+    "type": "object"
+   }
+  },
+  {
+   "name": "option_price",
+   "route": "/v1/finance/option-price",
+   "price_usd": 0.003,
+   "title": "Option Pricer & Greeks",
+   "description": "Black-Scholes price and greeks (delta, gamma, vega, theta, rho) of a European call or put, probability in the money and breakeven; or the implied volatility from a market price. For stocks, FX or crypto.",
+   "tags": [
+    "options",
+    "black-scholes",
+    "greeks",
+    "implied-volatility",
+    "derivatives",
+    "finance"
+   ],
+   "input_schema": {
+    "properties": {
+     "spot": {
+      "type": "number",
+      "description": "Underlying price"
+     },
+     "strike": {
+      "type": "number",
+      "description": "Strike price"
+     },
+     "days": {
+      "type": "number",
+      "description": "Days to expiry"
+     },
+     "volatility_pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Annual volatility in % (omit when giving market_price)"
+     },
+     "kind": {
+      "default": "call",
+      "type": "string",
+      "description": "call or put"
+     },
+     "rate_pct": {
+      "default": 4.0,
+      "type": "number",
+      "description": "Risk-free rate in % (default 4)"
+     },
+     "dividend_yield_pct": {
+      "default": 0.0,
+      "type": "number",
+      "description": "Dividend or carry yield in %"
+     },
+     "market_price": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Option market price, to solve for implied volatility"
+     }
+    },
+    "required": [
+     "spot",
+     "strike",
+     "days"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_treasury_yields",
+   "route": "/v1/finance/treasury-yields",
+   "price_usd": 0.003,
+   "title": "US Treasury Yield Curve",
+   "description": "US Treasury par yield curve from 1 month to 30 years (percent) for the latest day or any date since 1990, with 10y-2y and 10y-3m spreads, inversion flag and up to 60 days of history. Use for risk-free rates, discounting, macro analysis or answering where 10-year yields are.",
+   "tags": [
+    "finance",
+    "rates",
+    "treasury",
+    "yield-curve",
+    "macro",
+    "bonds"
+   ],
+   "input_schema": {
+    "properties": {
+     "date": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "YYYY-MM-DD (default latest)"
+     },
+     "days": {
+      "default": 1,
+      "type": "integer",
+      "description": "Days of history 1-60, default 1"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_banks",
+   "route": "/v1/finance/us-banks",
+   "price_usd": 0.003,
+   "title": "US Bank Lookup (FDIC)",
+   "description": "FDIC-insured US banks by name, state or FDIC certificate: total assets, deposits, net income, ROA, ROE, offices, regulator, charter, holding company and status. Use for bank research or counterparty checks.",
+   "tags": [
+    "banks",
+    "fdic",
+    "finance",
+    "us",
+    "kyb"
+   ],
+   "input_schema": {
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Bank name, e.g. Silvergate"
+     },
+     "state": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Two-letter state"
+     },
+     "cert": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "FDIC certificate number"
+     },
+     "active": {
+      "default": true,
+      "type": "boolean",
+      "description": "Only active banks (default true)"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "eu_vat_check",
+   "route": "/v1/finance/vat",
+   "price_usd": 0.003,
+   "title": "EU VAT Number Check",
+   "description": "Validate an EU VAT number live against the official EU VIES service, returning valid/invalid and the registered company name and address where the member state shares them. Use for B2B invoicing, reverse charge checks and KYC. Unavailable member states return an error and are not charged.",
+   "tags": [
+    "vat",
+    "tax",
+    "eu",
+    "kyc",
+    "invoicing",
+    "compliance"
+   ],
+   "input_schema": {
+    "properties": {
+     "vat_number": {
+      "type": "string",
+      "description": "VAT number with country prefix, e.g. DE811569869"
+     }
+    },
+    "required": [
+     "vat_number"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "worldbank_indicator",
+   "route": "/v1/finance/worldbank",
+   "price_usd": 0.003,
+   "title": "World Bank Country Indicators",
+   "description": "World Bank development data for any country: GDP, GDP per capita, growth, population, inflation, unemployment, life expectancy, CO2, exports, debt, internet use, FDI or any indicator code, by year. Use for country comparisons and market sizing.",
+   "tags": [
+    "economics",
+    "worldbank",
+    "countries",
+    "gdp",
+    "population"
+   ],
+   "input_schema": {
+    "properties": {
+     "country": {
+      "type": "string",
+      "description": "ISO country code (AE, DEU) or WLD"
+     },
+     "indicator": {
+      "default": "gdp",
+      "type": "string",
+      "description": "Alias (gdp, population...) or World Bank code"
+     },
+     "years": {
+      "default": 10,
+      "type": "integer",
+      "description": "Years of data (1-60)"
+     }
+    },
+    "required": [
+     "country"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "country_info",
+   "route": "/v1/geo/country",
+   "price_usd": 0.003,
+   "title": "Country Facts",
+   "description": "Facts about a country by name or ISO code: official name, capital, region, languages, currencies, calling code, borders, area, internet TLD, coordinates, UN membership and flag. Use to enrich addresses, forms and datasets.",
+   "tags": [
+    "countries",
+    "geography",
+    "reference",
+    "currencies",
+    "lookup"
+   ],
+   "input_schema": {
+    "properties": {
+     "country": {
+      "type": "string",
+      "description": "Country name or ISO-2/ISO-3 code"
+     }
+    },
+    "required": [
+     "country"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "earthquakes",
+   "route": "/v1/geo/earthquakes",
+   "price_usd": 0.003,
+   "title": "Recent Earthquakes",
+   "description": "Recent earthquakes worldwide or within a radius of a point (USGS): magnitude, place, time, depth, tsunami flag, PAGER alert and felt reports, over the last hour, day, week or month. Use for risk monitoring and news.",
+   "tags": [
+    "earthquakes",
+    "usgs",
+    "disasters",
+    "risk",
+    "geology"
+   ],
+   "input_schema": {
+    "properties": {
+     "min_magnitude": {
+      "default": 4.5,
+      "type": "number",
+      "description": "Minimum magnitude (default 4.5)"
+     },
+     "period": {
+      "default": "day",
+      "type": "string",
+      "description": "hour, day, week or month"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Center latitude"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Center longitude"
+     },
+     "radius_km": {
+      "default": 500,
+      "type": "number",
+      "description": "Radius around the point"
+     },
+     "limit": {
+      "default": 50,
+      "type": "integer",
+      "description": "Maximum number of results (1-500)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "geocode",
+   "route": "/v1/geo/geocode",
+   "price_usd": 0.003,
+   "title": "Geocoding & Reverse Geocoding",
+   "description": "Turn an address, place or landmark into coordinates with a structured address, or coordinates into the nearest address (reverse), from OpenStreetMap. Use for maps, delivery, distance calculations or location lookups.",
+   "tags": [
+    "geocoding",
+    "maps",
+    "address",
+    "location",
+    "openstreetmap"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Address or place name (forward geocoding)"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Latitude (reverse geocoding)"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Longitude (reverse geocoding)"
+     },
+     "limit": {
+      "default": 5,
+      "type": "integer",
+      "description": "Maximum number of results (1-20)"
+     },
+     "lang": {
+      "default": "en",
+      "type": "string",
+      "description": "Result language, e.g. en"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "postal_code",
+   "route": "/v1/geo/postcode",
+   "price_usd": 0.003,
+   "title": "Postal Code Lookup",
+   "description": "Places for a postal or ZIP code in about 60 countries: place names, state or region and coordinates. Use to validate addresses, fill forms or locate customers.",
+   "tags": [
+    "postcode",
+    "zip",
+    "address",
+    "location"
+   ],
+   "input_schema": {
+    "properties": {
+     "country": {
+      "type": "string",
+      "description": "ISO 2-letter country code"
+     },
+     "code": {
+      "type": "string",
+      "description": "Postal code"
+     }
+    },
+    "required": [
+     "country",
+     "code"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "sun_moon_times",
+   "route": "/v1/geo/sun-moon",
+   "price_usd": 0.003,
+   "title": "Sunrise, Sunset & Moon",
+   "description": "Sunrise, sunset, solar noon, day length, sun elevation, moonrise, moonset, moon phase and illumination for any place (name or coordinates) and date. Use for photography, prayer and event planning, solar or outdoor work.",
+   "tags": [
+    "sunrise",
+    "sunset",
+    "moon",
+    "astronomy",
+    "planning"
+   ],
+   "input_schema": {
+    "properties": {
+     "place": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "City or address"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Latitude"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Longitude"
+     },
+     "on": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Date YYYY-MM-DD"
+     },
+     "utc_offset": {
+      "default": "+00:00",
+      "type": "string",
+      "description": "Local UTC offset for the times, e.g. +04:00"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_address_geocode",
+   "route": "/v1/geo/us-address",
+   "price_usd": 0.003,
+   "title": "US Address Geocoder (Census)",
+   "description": "Match a US street address with the Census Bureau geocoder: standardized address, coordinates, ZIP, county, census tract and block, city, metro area and congressional district with FIPS/GEOIDs.",
+   "tags": [
+    "geocoding",
+    "address",
+    "us",
+    "census",
+    "fips"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "US street address in one line"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "weather_forecast",
+   "route": "/v1/geo/weather",
+   "price_usd": 0.003,
+   "title": "Weather Forecast",
+   "description": "Current weather and a daily forecast (up to 9 days) for any city, address or coordinates: temperature, min/max, humidity, wind, clouds, pressure, sky and precipitation, from the Norwegian Meteorological Institute. Use for travel, events, logistics or energy planning.",
+   "tags": [
+    "weather",
+    "forecast",
+    "temperature",
+    "travel"
+   ],
+   "input_schema": {
+    "properties": {
+     "place": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "City or address"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Latitude"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Longitude"
+     },
+     "days": {
+      "default": 3,
+      "type": "integer",
+      "description": "Forecast days (1-9)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "federal_register",
+   "route": "/v1/gov/federal-register",
+   "price_usd": 0.003,
+   "title": "US Federal Register Search",
+   "description": "Search US federal rules, proposed rules, notices and presidential documents: title, agency, dates, comment deadline, docket, abstract and links. Use to track US regulation on a topic.",
+   "tags": [
+    "regulation",
+    "government",
+    "policy",
+    "compliance",
+    "legal",
+    "us"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search terms, e.g. stablecoin"
+     },
+     "doc_type": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "rule, proposed_rule, notice or presidential"
+     },
+     "agency": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Agency, e.g. Securities and Exchange Commission"
+     },
+     "days": {
+      "default": 365,
+      "type": "integer",
+      "description": "Look-back in days (default 365)"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_federal_awards",
+   "route": "/v1/gov/us-contracts",
+   "price_usd": 0.003,
+   "title": "US Federal Contracts & Grants",
+   "description": "Largest US federal contracts, grants or loans by keyword or recipient from USAspending.gov: recipient, amount, agency, dates, place, NAICS and description. Use for B2G sales research or due diligence.",
+   "tags": [
+    "government",
+    "contracts",
+    "procurement",
+    "grants",
+    "us",
+    "b2g"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Keyword, e.g. battery storage"
+     },
+     "recipient": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Recipient company name"
+     },
+     "award_type": {
+      "default": "contracts",
+      "type": "string",
+      "description": "contracts, grants or loans"
+     },
+     "days": {
+      "default": 365,
+      "type": "integer",
+      "description": "Look-back in days (1-3650)"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "clinical_trials",
+   "route": "/v1/health/clinical-trials",
+   "price_usd": 0.003,
+   "title": "Clinical Trials Search",
+   "description": "Search ClinicalTrials.gov by condition, drug/device or sponsor: status, phase, enrollment, start and completion dates, sponsor, interventions and countries. Use for pharma, biotech and patient research.",
+   "tags": [
+    "clinical-trials",
+    "health",
+    "biotech",
+    "pharma",
+    "research"
+   ],
+   "input_schema": {
+    "properties": {
+     "condition": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Condition, e.g. obesity"
+     },
+     "intervention": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Drug or device, e.g. tirzepatide"
+     },
+     "sponsor": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Sponsor, e.g. Pfizer"
+     },
+     "status": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "recruiting, active, completed, not_yet_recruiting, terminated or withdrawn"
+     },
+     "phase": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "1, 2, 3, 4 or early1"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "fda_drug_label",
+   "route": "/v1/health/drug-label",
+   "price_usd": 0.003,
+   "title": "FDA Drug Label",
+   "description": "Official FDA label of a drug by brand or generic name: indications, dosage, warnings, boxed warning, contraindications, adverse reactions, interactions, pharmacologic class, manufacturer and NDC codes.",
+   "tags": [
+    "health",
+    "drugs",
+    "fda",
+    "medicine",
+    "pharma"
+   ],
+   "input_schema": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Brand or generic name, e.g. Ozempic or metformin"
+     },
+     "limit": {
+      "default": 3,
+      "type": "integer",
+      "description": "Labels (1-10)"
+     }
+    },
+    "required": [
+     "name"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "fda_recalls",
+   "route": "/v1/health/fda-recalls",
+   "price_usd": 0.003,
+   "title": "FDA Recalls (Food, Drug, Device)",
+   "description": "Recent FDA recall and enforcement reports for food, drugs or medical devices: firm, product, reason, class I/II/III, status, quantity and distribution, filterable by keyword, class and age.",
+   "tags": [
+    "recalls",
+    "fda",
+    "food-safety",
+    "drugs",
+    "medical-devices",
+    "compliance"
+   ],
+   "input_schema": {
+    "properties": {
+     "kind": {
+      "default": "food",
+      "type": "string",
+      "description": "food, drug or device"
+     },
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Keyword (product, reason or firm)"
+     },
+     "classification": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "I, II or III"
+     },
+     "days": {
+      "default": 90,
+      "type": "integer",
+      "description": "Look-back in days (1-3650)"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "food_product",
+   "route": "/v1/lookup/food",
+   "price_usd": 0.003,
+   "title": "Food Product by Barcode",
+   "description": "Food product details from its EAN/UPC barcode: name, brand, quantity, ingredients, allergens, Nutri-Score, NOVA processing group, Eco-Score and nutrients per 100 g, from Open Food Facts. Use for nutrition apps, shopping assistants or allergy checks.",
+   "tags": [
+    "food",
+    "barcode",
+    "nutrition",
+    "allergens",
+    "products"
+   ],
+   "input_schema": {
+    "properties": {
+     "barcode": {
+      "type": "string",
+      "description": "EAN-13, EAN-8 or UPC barcode"
+     }
+    },
+    "required": [
+     "barcode"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "university_lookup",
+   "route": "/v1/lookup/universities",
+   "price_usd": 0.003,
+   "title": "University Lookup",
+   "description": "Universities worldwide by name and/or country, with official websites and email domains. Use to verify academic email addresses, fill forms or build education lists.",
+   "tags": [
+    "universities",
+    "education",
+    "email-verification",
+    "lookup"
+   ],
+   "input_schema": {
+    "properties": {
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Name or part of it"
+     },
+     "country": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Country name in English"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "free_image_search",
+   "route": "/v1/media/images",
+   "price_usd": 0.003,
+   "title": "Free Image Search",
+   "description": "Search openly licensed images (Creative Commons and public domain) from Flickr, Wikimedia and museums via Openverse: image URL, size, creator, license and a ready-made attribution line. Filter to commercially usable images. Use to illustrate posts, slides or sites legally.",
+   "tags": [
+    "images",
+    "creative-commons",
+    "stock-photos",
+    "media",
+    "content"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search words"
+     },
+     "license_type": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "commercial, modification or all"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-20)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "hacker_news",
+   "route": "/v1/news/hackernews",
+   "price_usd": 0.003,
+   "title": "Hacker News Stories",
+   "description": "Hacker News stories by keyword (by relevance or newest) or the current front page: title, link, points, comment count, author, time and discussion URL. Use to see what developers are discussing about a topic.",
+   "tags": [
+    "news",
+    "hacker-news",
+    "tech",
+    "developers",
+    "startups"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Search words (omit for front page)"
+     },
+     "sort": {
+      "default": "relevance",
+      "type": "string",
+      "description": "relevance, date or front_page"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "eu_power_prices",
+   "route": "/v1/power/day-ahead",
+   "price_usd": 0.003,
+   "title": "EU day-ahead power prices",
+   "description": "Day-ahead wholesale electricity prices for a European bidding zone (DE-LU, FR, NL, AT, BE, PL, ...) for up to 31 days in local time, with daily min/max/mean and the cheapest and priciest N-hour window. Use when scheduling EV charging, heat pumps or batteries, or asked what power costs tomorrow.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "zone": {
+      "type": "string"
+     },
+     "start": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null
+     },
+     "end": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null
+     },
+     "window_hours": {
+      "default": 3,
+      "type": "number"
+     }
+    },
+    "required": [
+     "zone"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "eu_power_mix",
+   "route": "/v1/power/eu-mix",
+   "price_usd": 0.003,
+   "title": "European Power Generation Mix",
+   "description": "Latest electricity generation by source (MW) for a European country (DE, FR, NL, PL, IT, AT, CH, BE...): wind, solar, nuclear, gas, coal, hydro, batteries, total load, net imports, renewable share and CO2 intensity. Use for energy dashboards, trading context or emissions reporting.",
+   "tags": [
+    "energy",
+    "electricity",
+    "europe",
+    "renewables",
+    "grid",
+    "carbon"
+   ],
+   "input_schema": {
+    "properties": {
+     "country": {
+      "default": "de",
+      "type": "string",
+      "description": "ISO 2-letter country code"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "uk_grid_carbon",
+   "route": "/v1/power/uk-carbon",
+   "price_usd": 0.003,
+   "title": "UK Grid Carbon Intensity",
+   "description": "Great Britain electricity carbon intensity (gCO2/kWh) now, nationally or for a postcode region, with the generation mix (wind, gas, nuclear, solar, imports) and a half-hourly forecast up to 48h including the lowest-carbon slot. Use to schedule EV charging, heat pumps or compute jobs.",
+   "tags": [
+    "energy",
+    "carbon",
+    "uk",
+    "grid",
+    "sustainability",
+    "electricity"
+   ],
+   "input_schema": {
+    "properties": {
+     "postcode": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "GB postcode or outward code (optional)"
+     },
+     "hours": {
+      "default": 24,
+      "type": "integer",
+      "description": "Forecast hours (1-48)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "kalshi_search",
+   "route": "/v1/predictions/kalshi/search",
+   "price_usd": 0.003,
+   "title": "Kalshi Search",
+   "description": "Search Kalshi, the US-regulated prediction exchange, for open events (Fed decisions, CPI, elections, weather, crypto prices, sports) and get every market's yes bid/ask and last price as probabilities, volume and close time. Use for US economic and political event odds.",
+   "tags": [
+    "prediction-markets",
+    "kalshi",
+    "odds",
+    "economics",
+    "fed"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search words"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-30)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "manifold_search",
+   "route": "/v1/predictions/manifold/search",
+   "price_usd": 0.003,
+   "title": "Manifold Markets Search",
+   "description": "Search Manifold Markets, the largest play-money prediction community, for open questions on AI, tech, science, politics and more, with probability, volume, bettor count and close date. Use for crowd forecasts on topics real-money markets don't cover.",
+   "tags": [
+    "prediction-markets",
+    "manifold",
+    "forecasting",
+    "ai"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search words"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "polymarket_leaderboard",
+   "route": "/v1/predictions/polymarket/leaderboard",
+   "price_usd": 0.003,
+   "title": "Polymarket Top Traders",
+   "description": "Polymarket's top traders by profit or volume for the day, week, month or all time, optionally in one category (politics, sports, crypto...), with wallet addresses to follow.",
+   "tags": [
+    "polymarket",
+    "prediction-markets",
+    "leaderboard",
+    "traders",
+    "copy-trading"
+   ],
+   "input_schema": {
+    "properties": {
+     "period": {
+      "default": "week",
+      "type": "string",
+      "description": "day, week, month or all"
+     },
+     "order_by": {
+      "default": "pnl",
+      "type": "string",
+      "description": "pnl or volume"
+     },
+     "category": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Category, e.g. politics, sports, crypto"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Rows (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "polymarket_market",
+   "route": "/v1/predictions/polymarket/market",
+   "price_usd": 0.003,
+   "title": "Polymarket Market & Order Book",
+   "description": "One Polymarket market by slug, id or URL: question, rules, outcome probabilities, best bid/ask, last trade, 1-day change, volume, liquidity and the order book (top bids and asks with sizes and spread) for each outcome. An event slug returns all its markets. Use before placing a trade or to quote exact odds.",
+   "tags": [
+    "prediction-markets",
+    "polymarket",
+    "order-book",
+    "odds"
+   ],
+   "input_schema": {
+    "properties": {
+     "market": {
+      "type": "string",
+      "description": "Market slug, numeric id or polymarket.com URL"
+     },
+     "depth": {
+      "default": 5,
+      "type": "integer",
+      "description": "Order book levels per side (1-20)"
+     }
+    },
+    "required": [
+     "market"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "polymarket_search",
+   "route": "/v1/predictions/polymarket/search",
+   "price_usd": 0.003,
+   "title": "Polymarket Search",
+   "description": "Search open Polymarket prediction markets by keyword (election, bitcoin, fed, AI...) and get each event's markets with live outcome probabilities, best bid/ask, 24h and total volume, liquidity, end date and link. Use to answer what the market thinks will happen, or to find a market to trade.",
+   "tags": [
+    "prediction-markets",
+    "polymarket",
+    "odds",
+    "forecasting",
+    "politics",
+    "crypto"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search words"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-30)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "polymarket_top_markets",
+   "route": "/v1/predictions/polymarket/top",
+   "price_usd": 0.003,
+   "title": "Polymarket Top Markets",
+   "description": "Most active open Polymarket events right now, ranked by 24h volume, total volume or liquidity, optionally by tag (crypto, politics, sports, economy, tech, ai). Each event lists its markets with live probabilities. Use to see what traders are betting on today.",
+   "tags": [
+    "prediction-markets",
+    "polymarket",
+    "trending",
+    "odds"
+   ],
+   "input_schema": {
+    "properties": {
+     "tag": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Polymarket tag slug, e.g. crypto, politics, sports"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     },
+     "order": {
+      "default": "volume24hr",
+      "type": "string",
+      "description": "volume24hr, volume, liquidity, startDate or endDate"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "polymarket_wallet",
+   "route": "/v1/predictions/polymarket/wallet",
+   "price_usd": 0.003,
+   "title": "Polymarket Wallet Positions",
+   "description": "A Polymarket wallet's open positions (market, outcome, shares, average price, value, PnL) and latest trades with portfolio totals. Use to follow or vet a trader.",
+   "tags": [
+    "polymarket",
+    "prediction-markets",
+    "wallet",
+    "positions",
+    "copy-trading"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "Polymarket proxy wallet (0x...)"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Rows (1-50)"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "prediction_markets_search",
+   "route": "/v1/predictions/search",
+   "price_usd": 0.005,
+   "title": "Prediction Markets Search (all)",
+   "description": "One query across Polymarket, Kalshi and Manifold at once: matching open events and markets with current probabilities from each, so real-money and crowd odds can be compared side by side. Use to answer 'what are the odds that...' with every major prediction market.",
+   "tags": [
+    "prediction-markets",
+    "polymarket",
+    "kalshi",
+    "manifold",
+    "odds",
+    "forecasting"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Search words"
+     },
+     "limit": {
+      "default": 5,
+      "type": "integer",
+      "description": "Results per market (1-15)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "company_financial_health_report",
+   "route": "/v1/reports/company",
+   "price_usd": 0.05,
+   "title": "Company Financial Health Report",
+   "description": "Financial health report of any US-listed company from its SEC filings, by ticker or name: 0-100 health score with reasons, verdict, latest annual figures, 5-year revenue and profit CAGR, margin and free cash flow trend, insider open-market buys and sales, and recent 10-K, 10-Q and 8-K links. Use for stock research, credit checks or a quick read on a public company.",
+   "tags": [
+    "stocks",
+    "sec",
+    "fundamentals",
+    "financial-health",
+    "insiders",
+    "report",
+    "research"
+   ],
+   "input_schema": {
+    "properties": {
+     "company": {
+      "type": "string",
+      "description": "Ticker (AAPL), company name (Tesla) or SEC CIK"
+     }
+    },
+    "required": [
+     "company"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "macro_briefing",
+   "route": "/v1/reports/macro",
+   "price_usd": 0.02,
+   "title": "Macro Briefing",
+   "description": "Today's macro briefing in one call: US Treasury yield curve with 10y-2y and 10y-3m spreads, recession and rate-path signals read in plain words, Fed funds, mortgage rates, breakeven inflation, the dollar index, oil and other public FRED series with 1-day, 1-week and 1-month changes, and policy rates of 10 major central banks. Use for market commentary, newsletters or context before a trade.",
+   "tags": [
+    "macro",
+    "economics",
+    "rates",
+    "yield-curve",
+    "fed",
+    "report",
+    "fred"
+   ],
+   "input_schema": {
+    "properties": {},
+    "type": "object"
+   }
+  },
+  {
+   "name": "token_due_diligence_report",
+   "route": "/v1/reports/token",
+   "price_usd": 0.02,
+   "title": "Token Due-Diligence Report",
+   "description": "One-call due diligence on any ERC-20 on Ethereum, Base, Arbitrum, Optimism or Polygon: 0-100 safety score and grade, owner powers found in the bytecode (mint, pause, blacklist, fees, trading switch), proxy and ownership status, Sourcify source verification, deployer, and the deepest Uniswap v3 pool with USD price and pool depth. Use before buying, listing or integrating a token. Replaces about 6 separate calls.",
+   "tags": [
+    "crypto",
+    "token",
+    "due-diligence",
+    "rug-check",
+    "security",
+    "report",
+    "base"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "Token contract address"
+     },
+     "chain": {
+      "default": "base",
+      "type": "string",
+      "description": "ethereum, base, arbitrum, optimism or polygon"
+     }
+    },
+    "required": [
+     "token"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "wallet_profile_report",
+   "route": "/v1/reports/wallet",
+   "price_usd": 0.02,
+   "title": "Wallet Profile Report",
+   "description": "Profile of any EVM address across Ethereum, Base, Arbitrum, Optimism and Polygon in one call: total USD value and top holdings, transactions sent per chain, profile (fresh, light, active, heavy or bot, contract), EIP-7702 delegation, ENS name and an OFAC sanctions check. Use for counterparty checks, airdrop and sybil screening, or knowing who an agent is paying.",
+   "tags": [
+    "crypto",
+    "wallet",
+    "profile",
+    "kyt",
+    "sanctions",
+    "report",
+    "evm"
+   ],
+   "input_schema": {
+    "properties": {
+     "address": {
+      "type": "string",
+      "description": "EVM address (0x...)"
+     }
+    },
+    "required": [
+     "address"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "website_audit_report",
+   "route": "/v1/reports/website",
+   "price_usd": 0.02,
+   "title": "Website Audit Report",
+   "description": "Passive audit of a website in one call: 0-100 score and grade across security headers, TLS certificate, email authentication (SPF, DKIM, DMARC) and SEO basics (title, description, canonical, og:image, robots.txt, sitemap), with a list of concrete fixes, plus registrar, domain age, tech stack and AI crawler rules. Use for lead qualification, vendor checks or SEO and security reviews.",
+   "tags": [
+    "website",
+    "audit",
+    "seo",
+    "security",
+    "email",
+    "report",
+    "domain"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain or URL, e.g. example.com"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "arxiv_search",
+   "route": "/v1/research/arxiv",
+   "price_usd": 0.003,
+   "title": "arXiv Paper Search",
+   "description": "Search arXiv preprints (AI, physics, math, CS, quant finance...) by keywords or field query: title, authors, abstract, categories, dates and PDF link, by relevance or newest. Use for literature review or tracking new research.",
+   "tags": [
+    "research",
+    "arxiv",
+    "papers",
+    "ai",
+    "science"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Keywords, or arXiv query syntax like ti:transformer AND cat:cs.LG"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     },
+     "sort": {
+      "default": "relevance",
+      "type": "string",
+      "description": "relevance, date or updated"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "book_search",
+   "route": "/v1/research/books",
+   "price_usd": 0.003,
+   "title": "Book Search",
+   "description": "Find books by title, author or ISBN (Open Library): authors, first publication year, editions, pages, ISBNs, subjects, publishers, languages, rating and cover image. Use for book lookups, reading lists or metadata.",
+   "tags": [
+    "books",
+    "isbn",
+    "library",
+    "metadata"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Title, author or ISBN"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "research_papers",
+   "route": "/v1/research/papers",
+   "price_usd": 0.003,
+   "title": "Research Paper Search (Crossref)",
+   "description": "Search published research papers and articles across all publishers (Crossref): title, authors, journal, year, DOI, citation count and abstract, by relevance, date or citations. Use to find and cite sources.",
+   "tags": [
+    "research",
+    "papers",
+    "doi",
+    "citations",
+    "academic"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Title, topic or author words"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     },
+     "sort": {
+      "default": "relevance",
+      "type": "string",
+      "description": "relevance, date or citations"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "exploited_vulnerabilities",
+   "route": "/v1/security/kev",
+   "price_usd": 0.003,
+   "title": "Known Exploited Vulnerabilities (CISA)",
+   "description": "Check CVEs against CISA's Known Exploited Vulnerabilities catalog or search it by vendor/product: date added, remediation due date, ransomware use, CWE and required action. Use to prioritise patching.",
+   "tags": [
+    "security",
+    "cve",
+    "vulnerabilities",
+    "cisa",
+    "patching"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Vendor or product words, e.g. fortinet"
+     },
+     "cve": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "CVE id, e.g. CVE-2021-44228"
+     },
+     "days": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Only entries added in the last N days"
+     },
+     "ransomware": {
+      "default": false,
+      "type": "boolean",
+      "description": "Only known ransomware use"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "define_word",
+   "route": "/v1/text/define",
+   "price_usd": 0.003,
+   "title": "Dictionary Definition",
+   "description": "English dictionary entry for a word: pronunciation (IPA and audio), parts of speech, definitions with examples, synonyms and antonyms, from Wiktionary. Use for writing, learning or word games.",
+   "tags": [
+    "dictionary",
+    "language",
+    "words",
+    "english",
+    "education"
+   ],
+   "input_schema": {
+    "properties": {
+     "word": {
+      "type": "string",
+      "description": "Word"
+     },
+     "language": {
+      "default": "en",
+      "type": "string",
+      "description": "Language code (default en)"
+     }
+    },
+    "required": [
+     "word"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "detect_language",
+   "route": "/v1/text/language",
+   "price_usd": 0.003,
+   "title": "Language Detection",
+   "description": "Detect the language of a text among 55 languages, with probabilities for each candidate and a reliability flag. Use to route messages, pick a translator or tag content.",
+   "tags": [
+    "language",
+    "detection",
+    "nlp",
+    "text",
+    "translation"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Text to identify"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "text_sentiment",
+   "route": "/v1/text/sentiment",
+   "price_usd": 0.003,
+   "title": "Text Sentiment",
+   "description": "Sentiment of English text (reviews, posts, headlines): positive/negative/neutral label, compound score -1..1 and word shares, optionally per sentence with the most positive and negative lines. Rule-based, instant.",
+   "tags": [
+    "nlp",
+    "sentiment",
+    "text",
+    "reviews",
+    "social"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "English text"
+     },
+     "per_sentence": {
+      "default": true,
+      "type": "boolean",
+      "description": "Score each sentence too"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "text_stats",
+   "route": "/v1/text/stats",
+   "price_usd": 0.003,
+   "title": "Text Statistics & Readability",
+   "description": "Statistics for a text: words, sentences, characters, paragraphs, reading and speaking time, Flesch reading ease, Flesch-Kincaid grade, Gunning fog, complex-word share, lexical diversity and top keywords. Use to check copy, essays or SEO content.",
+   "tags": [
+    "text",
+    "readability",
+    "writing",
+    "seo",
+    "analysis"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Text to analyse (max 100,000 characters)"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "word_finder",
+   "route": "/v1/text/words",
+   "price_usd": 0.003,
+   "title": "Word Finder",
+   "description": "Find words by relation: synonyms, antonyms, rhymes, near rhymes, sound-alikes, spelling patterns with * and ? wildcards, words that mean something, adjectives describing a noun and more, ranked with definitions. Use for copywriting, naming, poetry and puzzles.",
+   "tags": [
+    "words",
+    "thesaurus",
+    "rhymes",
+    "writing",
+    "naming"
+   ],
+   "input_schema": {
+    "properties": {
+     "word": {
+      "type": "string",
+      "description": "Word, phrase or pattern"
+     },
+     "relation": {
+      "default": "means_like",
+      "type": "string",
+      "description": "means_like, synonyms, antonyms, rhymes, near_rhymes, sounds_like, spelled_like, follows, precedes, describes, described_by, triggers"
+     },
+     "topic": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Optional topic words to bias results"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "required": [
+     "word"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "airport_status",
+   "route": "/v1/travel/airport-status",
+   "price_usd": 0.003,
+   "title": "US Airport Status (FAA)",
+   "description": "Live US airport disruptions from the FAA: closures, ground stops, ground delay programs and arrival or departure delays with reason, average and max delay and expected end. Filter by airport code (JFK, LAX).",
+   "tags": [
+    "aviation",
+    "airports",
+    "flight-delays",
+    "travel",
+    "faa"
+   ],
+   "input_schema": {
+    "properties": {
+     "airport": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "IATA/FAA airport code (optional)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_company_filings",
+   "route": "/v1/us-stocks/filings",
+   "price_usd": 0.003,
+   "title": "US company SEC filings list",
+   "description": "Latest SEC EDGAR filings of a US-listed company by ticker with links, optionally filtered by form (10-K, 10-Q, 8-K, 4 for insider trades, 13F-HR, S-1). Use for recent disclosures or insider filings.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "ticker": {
+      "type": "string"
+     },
+     "forms": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer"
+     }
+    },
+    "required": [
+     "ticker"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "sec_full_text_search",
+   "route": "/v1/us-stocks/full-text-search",
+   "price_usd": 0.004,
+   "title": "SEC Full-Text Search",
+   "description": "Search the full text of all SEC filings since 2001 for any word or exact phrase (in quotes), filtered by form type (10-K, 8-K, S-1...) and date: company, form, filing date, period and document link. Use to find every filing mentioning a risk, product, customer or event.",
+   "tags": [
+    "sec",
+    "filings",
+    "search",
+    "research",
+    "compliance"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Words or a quoted exact phrase"
+     },
+     "forms": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated form types, e.g. 10-K,8-K"
+     },
+     "start": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "From date YYYY-MM-DD"
+     },
+     "end": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "To date YYYY-MM-DD"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-100)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_company_fundamentals",
+   "route": "/v1/us-stocks/fundamentals",
+   "price_usd": 0.005,
+   "title": "US company fundamentals (SEC)",
+   "description": "Reported financials of a US-listed company from SEC 10-K/10-Q filings by ticker: revenue, profit, EPS, cash flow, free cash flow, assets, debt, equity and margins, annual or quarterly. Use when analysing or comparing US stocks and you need filed numbers, not estimates.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "ticker": {
+      "type": "string"
+     },
+     "period": {
+      "default": "annual",
+      "type": "string"
+     },
+     "limit": {
+      "default": 5,
+      "type": "integer"
+     }
+    },
+    "required": [
+     "ticker"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "insider_trades",
+   "route": "/v1/us-stocks/insiders",
+   "price_usd": 0.005,
+   "title": "Insider Trades (Form 4)",
+   "description": "Recent insider transactions at a US company from SEC Form 4 filings: insider name and role (CEO, director, 10% owner), buy/sell/award/option exercise, shares, price, value, shares held after and filing link. Set buys_sells_only to see open-market trades only. Use for insider-buying signals.",
+   "tags": [
+    "sec",
+    "insider-trading",
+    "form-4",
+    "stocks",
+    "signals"
+   ],
+   "input_schema": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "description": "Ticker or CIK"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Number of recent Form 4 filings to read (1-40)"
+     },
+     "buys_sells_only": {
+      "default": false,
+      "type": "boolean",
+      "description": "Only open-market purchases and sales"
+     }
+    },
+    "required": [
+     "ticker"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_company_profile",
+   "route": "/v1/us-stocks/profile",
+   "price_usd": 0.003,
+   "title": "US Company Profile",
+   "description": "SEC profile of a US-listed company: legal name, tickers and exchanges, industry (SIC), state of incorporation, fiscal year end, business address and phone, website, former names, filer category and links to the latest 10-K and 10-Q. Use for due diligence and company research.",
+   "tags": [
+    "sec",
+    "stocks",
+    "company-profile",
+    "due-diligence",
+    "us-equities"
+   ],
+   "input_schema": {
+    "properties": {
+     "ticker": {
+      "type": "string",
+      "description": "Ticker or CIK"
+     }
+    },
+    "required": [
+     "ticker"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "sec_metric_screen",
+   "route": "/v1/us-stocks/screen",
+   "price_usd": 0.005,
+   "title": "SEC Metric Screener",
+   "description": "Rank every SEC filer by one reported metric for a period, straight from XBRL filings: revenue, net_income, operating_income, assets, cash, rnd, eps, stockholders_equity, long_term_debt, shares_outstanding or any us-gaap tag, for a year (CY2024) or quarter (CY2025Q2). Use for market-wide screens and league tables.",
+   "tags": [
+    "sec",
+    "screener",
+    "fundamentals",
+    "xbrl",
+    "stocks"
+   ],
+   "input_schema": {
+    "properties": {
+     "metric": {
+      "default": "revenue",
+      "type": "string",
+      "description": "Metric alias or us-gaap tag"
+     },
+     "period": {
+      "default": "CY2024",
+      "type": "string",
+      "description": "CY2024, CY2025Q2 or CY2024Q4I"
+     },
+     "limit": {
+      "default": 25,
+      "type": "integer",
+      "description": "Maximum number of results (1-500)"
+     },
+     "order": {
+      "default": "desc",
+      "type": "string",
+      "description": "desc (largest first) or asc"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_company_search",
+   "route": "/v1/us-stocks/search",
+   "price_usd": 0.003,
+   "title": "US Company Search",
+   "description": "Find US-listed companies by name or ticker (e.g. 'nvidia', 'bank of america', 'TSLA'): ticker, exact SEC registrant name and CIK, best matches first. Use to resolve a company name before calling other SEC tools.",
+   "tags": [
+    "sec",
+    "stocks",
+    "companies",
+    "tickers",
+    "us-equities"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "Company name or ticker"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "text_diff",
+   "route": "/v1/util/diff",
+   "price_usd": 0.003,
+   "title": "Text Diff",
+   "description": "Compare two texts line by line: unified diff, list of added, removed and changed lines, line and character similarity, optionally ignoring whitespace and case. Use to compare documents, configs or model outputs.",
+   "tags": [
+    "diff",
+    "text",
+    "compare",
+    "utility",
+    "developer"
+   ],
+   "input_schema": {
+    "properties": {
+     "a": {
+      "type": "string",
+      "description": "First text"
+     },
+     "b": {
+      "type": "string",
+      "description": "Second text"
+     },
+     "context": {
+      "default": 3,
+      "type": "integer",
+      "description": "Context lines in the unified diff (0-20)"
+     },
+     "ignore_whitespace": {
+      "default": false,
+      "type": "boolean",
+      "description": "Ignore whitespace changes"
+     },
+     "ignore_case": {
+      "default": false,
+      "type": "boolean",
+      "description": "Ignore case"
+     }
+    },
+    "required": [
+     "a",
+     "b"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "encode_decode",
+   "route": "/v1/util/encode",
+   "price_usd": 0.003,
+   "title": "Encode / Decode",
+   "description": "Encode or decode text: base64, base64url, hex, URL percent-encoding, HTML entities, ROT13, binary, Unicode escapes and punycode, or detect to try decoding unknown input.",
+   "tags": [
+    "encoding",
+    "base64",
+    "url-encode",
+    "developer",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Input text"
+     },
+     "operation": {
+      "default": "base64_encode",
+      "type": "string",
+      "description": "e.g. base64_encode, url_decode, detect"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "file_type",
+   "route": "/v1/util/file-type",
+   "price_usd": 0.003,
+   "title": "File Type Detector",
+   "description": "Detect a file's real format from its first bytes (magic numbers), given as base64 or hex: MIME type, extension and a warning when it does not match the file name. Use to validate uploads.",
+   "tags": [
+    "files",
+    "mime",
+    "upload-validation",
+    "security",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "data": {
+      "type": "string",
+      "description": "First bytes of the file (base64 or hex)"
+     },
+     "encoding": {
+      "default": "base64",
+      "type": "string",
+      "description": "base64 or hex"
+     },
+     "filename": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Original file name (optional)"
+     }
+    },
+    "required": [
+     "data"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "hash_text",
+   "route": "/v1/util/hash",
+   "price_usd": 0.003,
+   "title": "Hash & Encode",
+   "description": "MD5, SHA-1, SHA-256, SHA-512, SHA3-256, Keccak-256, BLAKE2b and CRC32 of a text or hex/base64 bytes, plus base64 and hex encodings, in one call. Use for integrity checks, IDs, signatures and Ethereum selectors.",
+   "tags": [
+    "hash",
+    "sha256",
+    "keccak",
+    "integrity",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "description": "Input text or bytes"
+     },
+     "encoding": {
+      "default": "utf8",
+      "type": "string",
+      "description": "utf8, hex or base64"
+     }
+    },
+    "required": [
+     "text"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "public_holidays",
+   "route": "/v1/util/holidays",
+   "price_usd": 0.003,
+   "title": "Public Holidays",
+   "description": "Public holidays of 150+ countries and their states/regions, or stock-market holidays (NYSE, ECB TARGET), for any year, and whether a given date is a holiday or business day with the next business day. Use for scheduling, delivery dates, payroll or market-open checks.",
+   "tags": [
+    "holidays",
+    "calendar",
+    "business-days",
+    "scheduling"
+   ],
+   "input_schema": {
+    "properties": {
+     "country": {
+      "type": "string",
+      "description": "ISO 3166 alpha-2 code (US, DE, AE) or market NYSE / ECB"
+     },
+     "year": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Year, default current"
+     },
+     "subdivision": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "State or region code, e.g. CA, BY"
+     },
+     "date": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Date to check, YYYY-MM-DD"
+     }
+    },
+    "required": [
+     "country"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "json_tools",
+   "route": "/v1/util/json",
+   "price_usd": 0.003,
+   "title": "JSON Toolbox",
+   "description": "Validate JSON (with line and column of errors), pretty-print, minify, sort keys, list all paths, show its shape, or extract a value by path like $.items[0].name or $.items[*].",
+   "tags": [
+    "json",
+    "validation",
+    "developer",
+    "data",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "data": {
+      "type": "string",
+      "description": "JSON text"
+     },
+     "operation": {
+      "default": "validate",
+      "type": "string",
+      "description": "validate, pretty, minify, sort_keys, shape, paths or extract"
+     },
+     "path": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Path for extract, e.g. $.a[0].b"
+     }
+    },
+    "required": [
+     "data"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "jwt_decode",
+   "route": "/v1/util/jwt-decode",
+   "price_usd": 0.003,
+   "title": "JWT Decoder",
+   "description": "Decode a JSON Web Token without verifying it: header, algorithm, payload claims, issued-at/expiry times and whether it has expired. Use to debug auth tokens and API sessions.",
+   "tags": [
+    "jwt",
+    "auth",
+    "decoder",
+    "developer",
+    "security"
+   ],
+   "input_schema": {
+    "properties": {
+     "token": {
+      "type": "string",
+      "description": "The JWT"
+     }
+    },
+    "required": [
+     "token"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "paid_ping",
+   "route": "/v1/util/ping",
+   "price_usd": 0.003,
+   "title": "Paid Ping (x402 Test)",
+   "description": "The smallest paid call: returns the server's UTC time and echoes your message. Use to test an x402 client, wallet and payment flow end to end before calling bigger tools.",
+   "tags": [
+    "x402",
+    "test",
+    "ping",
+    "time",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "message": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Text to echo back"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "qr_code",
+   "route": "/v1/util/qr",
+   "price_usd": 0.003,
+   "title": "QR Code Generator",
+   "description": "Generate a QR code for any text, URL, wallet address or payment link as SVG or PNG, returned inline as SVG markup and a base64 data URI ready for HTML or chat. Choose size, border and error correction. Use when a user needs a scannable code for a link, Wi-Fi, contact or crypto payment.",
+   "tags": [
+    "qr",
+    "qrcode",
+    "image",
+    "utility",
+    "payments"
+   ],
+   "input_schema": {
+    "properties": {
+     "data": {
+      "type": "string",
+      "description": "Text to encode, max 2000 characters"
+     },
+     "format": {
+      "default": "svg",
+      "type": "string",
+      "description": "svg or png"
+     },
+     "size": {
+      "default": 10,
+      "type": "integer",
+      "description": "Pixels per module 1-40, default 10"
+     },
+     "border": {
+      "default": 4,
+      "type": "integer",
+      "description": "Quiet-zone modules 0-10, default 4"
+     },
+     "error_correction": {
+      "default": "M",
+      "type": "string",
+      "description": "L, M, Q or H"
+     }
+    },
+    "required": [
+     "data"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "random_values",
+   "route": "/v1/util/random",
+   "price_usd": 0.003,
+   "title": "Secure Random Generator",
+   "description": "Cryptographically secure random values: UUID v4 or v7, strong passwords, hex or URL-safe tokens, integers in a range, dice rolls or coin flips, up to 100 at once.",
+   "tags": [
+    "random",
+    "uuid",
+    "password",
+    "dice",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "kind": {
+      "default": "uuid",
+      "type": "string",
+      "description": "uuid, uuid7, password, hex, token, integer, dice or coin"
+     },
+     "count": {
+      "default": 1,
+      "type": "integer",
+      "description": "How many (1-100)"
+     },
+     "length": {
+      "default": 16,
+      "type": "integer",
+      "description": "Length for password/hex/token"
+     },
+     "min_value": {
+      "default": 1,
+      "type": "integer",
+      "description": "Minimum for integer"
+     },
+     "max_value": {
+      "default": 6,
+      "type": "integer",
+      "description": "Maximum for integer, sides for dice"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "time_zone_convert",
+   "route": "/v1/util/time",
+   "price_usd": 0.003,
+   "title": "Time Zone Converter",
+   "description": "Convert a date-time (or now) from one time zone to several others, by IANA name, city or abbreviation (Dubai, New York, PST, CET): local time, UTC offset, abbreviation, DST flag and weekday. Use to schedule meetings across time zones.",
+   "tags": [
+    "time",
+    "timezone",
+    "scheduling",
+    "utility"
+   ],
+   "input_schema": {
+    "properties": {
+     "to": {
+      "type": "string",
+      "description": "Comma-separated target zones or cities"
+     },
+     "time": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "ISO date-time (default now)"
+     },
+     "from_zone": {
+      "default": "UTC",
+      "type": "string",
+      "description": "Zone of the given time (default UTC)"
+     }
+    },
+    "required": [
+     "to"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "convert_units",
+   "route": "/v1/util/units",
+   "price_usd": 0.003,
+   "title": "Unit Converter",
+   "description": "Convert a value between units of length, area, volume, mass, energy (kWh, MWh, BTU, GJ), power, pressure, temperature, speed, data size, time and compound units like kg/m^3 or mpg. Exact, no lookup tables to maintain.",
+   "tags": [
+    "units",
+    "conversion",
+    "calculator",
+    "utility",
+    "engineering"
+   ],
+   "input_schema": {
+    "properties": {
+     "value": {
+      "type": "number",
+      "description": "Number to convert"
+     },
+     "from_unit": {
+      "type": "string",
+      "description": "Unit, e.g. MWh, degF, mile, psi"
+     },
+     "to_unit": {
+      "type": "string",
+      "description": "Target unit, e.g. GJ, degC, km, bar"
+     }
+    },
+    "required": [
+     "value",
+     "from_unit",
+     "to_unit"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_weather_alerts",
+   "route": "/v1/weather/us-alerts",
+   "price_usd": 0.003,
+   "title": "US Weather Alerts",
+   "description": "Active US weather warnings, watches and advisories from the National Weather Service for a state or a point: event, severity, urgency, areas, onset, end, description and safety instructions, worst first.",
+   "tags": [
+    "weather",
+    "alerts",
+    "storms",
+    "us",
+    "nws",
+    "emergency"
+   ],
+   "input_schema": {
+    "properties": {
+     "state": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Two-letter US state, e.g. FL"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Latitude (instead of state)"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Longitude"
+     },
+     "severity": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "extreme, severe, moderate or minor"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Maximum number of results (1-50)"
+     }
+    },
+    "type": "object"
+   }
+  },
+  {
+   "name": "us_weather_forecast",
+   "route": "/v1/weather/us-forecast",
+   "price_usd": 0.003,
+   "title": "US Weather Forecast (NWS)",
+   "description": "Official National Weather Service forecast for a US location: 7-day day/night periods or hourly, with temperature, precipitation chance, wind and text forecast. US and territories only.",
+   "tags": [
+    "weather",
+    "forecast",
+    "us",
+    "nws"
+   ],
+   "input_schema": {
+    "properties": {
+     "lat": {
+      "type": "number",
+      "description": "Latitude"
+     },
+     "lon": {
+      "type": "number",
+      "description": "Longitude"
+     },
+     "hourly": {
+      "default": false,
+      "type": "boolean",
+      "description": "Hourly instead of 12-hour periods"
+     },
+     "periods": {
+      "default": 14,
+      "type": "integer",
+      "description": "Periods to return (1-156)"
+     }
+    },
+    "required": [
+     "lat",
+     "lon"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "agent_readiness",
+   "route": "/v1/web/agent-readiness",
+   "price_usd": 0.003,
+   "title": "AI Agent Readiness Scan",
+   "description": "Score 0-100 how ready a website is for AI agents: llms.txt, agent card, MCP manifest, OpenAPI spec, x402 payments, AI-crawler rules in robots.txt, sitemap and structured data, with suggestions.",
+   "tags": [
+    "ai-agents",
+    "llms-txt",
+    "mcp",
+    "seo",
+    "website-audit"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "Website URL"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "website_contact_details",
+   "route": "/v1/web/contacts",
+   "price_usd": 0.005,
+   "title": "Website contact details",
+   "description": "Business contact details of a company website: generic company emails (info@, sales@), company phones, social pages, name and address, from its home, contact, about and imprint pages. Personal emails are left out. Use to find how to reach a business.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string"
+     },
+     "max_pages": {
+      "default": 5,
+      "type": "integer"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "dns_lookup",
+   "route": "/v1/web/dns",
+   "price_usd": 0.003,
+   "title": "DNS Lookup",
+   "description": "DNS records of a domain: A, AAAA, MX, TXT, NS, CNAME, SOA and CAA, plus SPF and DNSSEC status, via Cloudflare/Google DNS-over-HTTPS. Use to check where a domain points, its mail servers, verification TXT records or why email or a website is failing.",
+   "tags": [
+    "dns",
+    "domain",
+    "network",
+    "mx",
+    "spf"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain name, e.g. stripe.com"
+     },
+     "types": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated record types (default all): A,AAAA,MX,TXT,NS,CNAME,SOA,CAA"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "domain_availability",
+   "route": "/v1/web/domain-availability",
+   "price_usd": 0.004,
+   "title": "Bulk Domain Availability",
+   "description": "Check up to 20 domain names at once, or one name across several TLDs (com, ai, io...), for registration via RDAP and DNS: available or taken, registrar and expiry. Use for brainstorming product names and finding free domains.",
+   "tags": [
+    "domains",
+    "availability",
+    "naming",
+    "rdap",
+    "startups"
+   ],
+   "input_schema": {
+    "properties": {
+     "domains": {
+      "type": "string",
+      "description": "Comma-separated domains or bare names"
+     },
+     "tlds": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Comma-separated TLDs to try each name with"
+     }
+    },
+    "required": [
+     "domains"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "email_validate",
+   "route": "/v1/web/email-check",
+   "price_usd": 0.003,
+   "title": "Email Address Validation",
+   "description": "Check an email address before sending: syntax, whether the domain exists and has mail servers (MX), disposable/temporary provider, role address (info@, sales@), free provider and typo suggestion (gmial.com -> gmail.com), with a verdict. No mail is sent and the mailbox is not probed.",
+   "tags": [
+    "email",
+    "validation",
+    "verify",
+    "leads",
+    "disposable"
+   ],
+   "input_schema": {
+    "properties": {
+     "email": {
+      "type": "string",
+      "description": "Email address"
+     }
+    },
+    "required": [
+     "email"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "email_security",
+   "route": "/v1/web/email-security",
+   "price_usd": 0.003,
+   "title": "Email Domain Security",
+   "description": "Email authentication audit of a domain: MX, SPF (lookup count and policy), DMARC policy and reporting, DKIM on common selectors, MTA-STS, TLS-RPT and BIMI, graded A-F with fixes. Use for deliverability and phishing-risk checks.",
+   "tags": [
+    "email",
+    "spf",
+    "dmarc",
+    "dkim",
+    "deliverability",
+    "security"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "expand_url",
+   "route": "/v1/web/expand-url",
+   "price_usd": 0.003,
+   "title": "Link Expander",
+   "description": "Expand a short or tracking link (bit.ly, t.co, lnkd.in...) hop by hop without opening the final page: every redirect, final URL and host, and a clean URL with tracking parameters removed. Use to check links safely.",
+   "tags": [
+    "url",
+    "redirects",
+    "short-links",
+    "security",
+    "tracking"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "Link to expand"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "http_headers",
+   "route": "/v1/web/headers",
+   "price_usd": 0.003,
+   "title": "HTTP Headers & Security Grade",
+   "description": "Fetch a URL's HTTP response headers with the full redirect chain, status, server, caching and a security grade (A-F) based on HSTS, CSP, X-Frame-Options and other headers, listing what is missing. Use for security reviews, redirect debugging or SEO checks.",
+   "tags": [
+    "security",
+    "http",
+    "headers",
+    "redirects",
+    "seo"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "URL or domain"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "ip_lookup",
+   "route": "/v1/web/ip",
+   "price_usd": 0.003,
+   "title": "IP Address Lookup",
+   "description": "Who owns an IP address (or a hostname's IP): ASN, network holder, announced prefix, regional registry, country, approximate city and coordinates, reverse DNS. Use for fraud checks, log analysis or finding a site's host.",
+   "tags": [
+    "ip",
+    "geolocation",
+    "asn",
+    "network",
+    "security"
+   ],
+   "input_schema": {
+    "properties": {
+     "ip": {
+      "type": "string",
+      "description": "IPv4/IPv6 address or hostname"
+     }
+    },
+    "required": [
+     "ip"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "extract_links",
+   "route": "/v1/web/links",
+   "price_usd": 0.003,
+   "title": "Page Link Extractor",
+   "description": "Every link on a web page with its anchor text, split into internal and external, with nofollow flags and the most-linked external domains. Use for SEO audits, crawling, backlink research or broken-link checks.",
+   "tags": [
+    "web",
+    "seo",
+    "links",
+    "crawler",
+    "scraping"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "Page URL"
+     },
+     "scope": {
+      "default": "all",
+      "type": "string",
+      "description": "all, internal or external"
+     },
+     "limit": {
+      "default": 200,
+      "type": "integer",
+      "description": "Maximum number of results (1-1000)"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "read_web_page",
+   "route": "/v1/web/markdown",
+   "price_usd": 0.005,
+   "title": "Web page to Markdown",
+   "description": "Read a public web page and return its main content as clean Markdown with title, author, publish date and language. Use when you need to read, quote or summarise an article or docs page from a URL.",
+   "tags": [],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string"
+     },
+     "links": {
+      "default": true,
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "url_metadata",
+   "route": "/v1/web/metadata",
+   "price_usd": 0.003,
+   "title": "URL Metadata & Link Preview",
+   "description": "Link-preview metadata of a web page: title, description, Open Graph and Twitter card image, site name, author, publish date, language, canonical URL, favicon and RSS feeds. Use to build link previews, enrich bookmarks or classify a URL without reading the full page.",
+   "tags": [
+    "web",
+    "metadata",
+    "open-graph",
+    "link-preview",
+    "seo"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "Page URL"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "robots_sitemap",
+   "route": "/v1/web/robots",
+   "price_usd": 0.003,
+   "title": "Robots.txt & Sitemap",
+   "description": "A site's robots.txt rules per user agent, whether AI crawlers (GPTBot, ClaudeBot, Google-Extended, CCBot, PerplexityBot) are blocked, and the URLs listed in its sitemap. Use before crawling a site or for SEO audits.",
+   "tags": [
+    "seo",
+    "robots",
+    "sitemap",
+    "crawling",
+    "ai-crawlers"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain name"
+     },
+     "limit": {
+      "default": 100,
+      "type": "integer",
+      "description": "Sitemap URLs to return (1-1000)"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "read_rss_feed",
+   "route": "/v1/web/rss",
+   "price_usd": 0.003,
+   "title": "RSS & Atom Feed Reader",
+   "description": "Read any RSS or Atom feed (or a website that links one) and get clean JSON items: title, link, date, author, summary text, categories and image, plus feed title and language. Use to monitor blogs, news sites, podcasts or release notes without parsing XML.",
+   "tags": [
+    "rss",
+    "atom",
+    "feed",
+    "news",
+    "monitoring"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "Feed URL or a site URL that links a feed"
+     },
+     "limit": {
+      "default": 20,
+      "type": "integer",
+      "description": "Items 1-100, default 20"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "ssl_certificate",
+   "route": "/v1/web/ssl",
+   "price_usd": 0.003,
+   "title": "SSL Certificate Check",
+   "description": "TLS certificate of a domain: whether it is valid, issuer, subject, valid-from and expiry dates, days left, all SAN hostnames, TLS version and cipher. Use for uptime/expiry monitoring or security checks.",
+   "tags": [
+    "ssl",
+    "tls",
+    "certificate",
+    "security",
+    "monitoring"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain name"
+     },
+     "port": {
+      "default": 443,
+      "type": "integer",
+      "description": "443 (default), 8443, 465, 993, 995 or 636"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "subdomain_finder",
+   "route": "/v1/web/subdomains",
+   "price_usd": 0.003,
+   "title": "Subdomain Finder",
+   "description": "Subdomains of a domain found in public Certificate Transparency logs (crt.sh), with first certificate and current validity date. Use for attack-surface mapping, asset inventory or competitor research.",
+   "tags": [
+    "security",
+    "subdomains",
+    "recon",
+    "dns",
+    "osint"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain name"
+     },
+     "limit": {
+      "default": 200,
+      "type": "integer",
+      "description": "Maximum number of results (1-1000)"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "tech_stack",
+   "route": "/v1/web/tech",
+   "price_usd": 0.003,
+   "title": "Website Technology Detection",
+   "description": "Detect the technologies a website uses from its headers and HTML: CMS (WordPress, Shopify, Webflow), frameworks (Next.js, React, Vue), CDN and hosting (Cloudflare, Vercel), analytics, chat, payments. Use for lead qualification, sales prospecting or competitor research.",
+   "tags": [
+    "web",
+    "technology",
+    "leads",
+    "builtwith",
+    "prospecting"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "URL or domain"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "wayback_snapshots",
+   "route": "/v1/web/wayback",
+   "price_usd": 0.003,
+   "title": "Wayback Machine Snapshots",
+   "description": "Internet Archive Wayback Machine snapshots of a URL: the capture closest to a date, plus the first and latest captures, with direct archive links. Use to see how a page looked before or recover deleted content.",
+   "tags": [
+    "web",
+    "archive",
+    "wayback",
+    "history",
+    "osint"
+   ],
+   "input_schema": {
+    "properties": {
+     "url": {
+      "type": "string",
+      "description": "URL or domain"
+     },
+     "date": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "Target date YYYY-MM-DD (default latest)"
+     }
+    },
+    "required": [
+     "url"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "domain_whois",
+   "route": "/v1/web/whois",
+   "price_usd": 0.003,
+   "title": "Domain WHOIS (RDAP)",
+   "description": "Registration data of a domain from RDAP, the official WHOIS successor: registrar, creation, update and expiry dates, status codes, nameservers, DNSSEC and registrant organisation/country where public. Says whether an unregistered name looks available. Use for domain research, due diligence or phishing checks.",
+   "tags": [
+    "domain",
+    "whois",
+    "rdap",
+    "registrar",
+    "availability"
+   ],
+   "input_schema": {
+    "properties": {
+     "domain": {
+      "type": "string",
+      "description": "Domain name, e.g. example.com"
+     }
+    },
+    "required": [
+     "domain"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "wikipedia_summary",
+   "route": "/v1/web/wikipedia",
+   "price_usd": 0.003,
+   "title": "Wikipedia Summary",
+   "description": "Lead summary of the Wikipedia article that best matches a topic, in any language edition: title, short description, summary paragraph, image, coordinates, Wikidata id and link. Use for quick factual background on a person, place, company or concept.",
+   "tags": [
+    "wikipedia",
+    "knowledge",
+    "facts",
+    "summary",
+    "research"
+   ],
+   "input_schema": {
+    "properties": {
+     "topic": {
+      "type": "string",
+      "description": "Topic or article title"
+     },
+     "lang": {
+      "default": "en",
+      "type": "string",
+      "description": "Language code, default en"
+     }
+    },
+    "required": [
+     "topic"
+    ],
+    "type": "object"
+   }
+  },
+  {
+   "name": "x402_api_search",
+   "route": "/v1/x402/search",
+   "price_usd": 0.003,
+   "title": "x402 API Finder",
+   "description": "Find the right pay-per-call API for a task: searches the x402 Bazaar and ranks results by real 30-day payers, with URL, price in USDC, network and description. Use before choosing which paid tool to call.",
+   "tags": [
+    "x402",
+    "discovery",
+    "api-search",
+    "agents",
+    "marketplace"
+   ],
+   "input_schema": {
+    "properties": {
+     "q": {
+      "type": "string",
+      "description": "What you need, e.g. weather or token price"
+     },
+     "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum number of results (1-25)"
+     }
+    },
+    "required": [
+     "q"
+    ],
+    "type": "object"
+   }
+  }
+ ]
+}

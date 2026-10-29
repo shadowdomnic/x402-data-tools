@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "x402-data-tools"
+version = "0.1.0"
+description = "180+ pay-per-call data tools for AI agents over x402: token, wallet, company and website reports, crypto, SEC, FRED, weather, web pages. LangChain, CrewAI, OpenAI and Anthropic tool formats."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+keywords = ["x402", "ai-agents", "langchain", "crewai", "tools", "usdc", "base", "crypto", "sec", "mcp"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["httpx>=0.27", "pydantic>=2", "x402[evm,httpx]>=2.25", "eth-account>=0.13"]
+
+[project.optional-dependencies]
+langchain = ["langchain-core>=0.3"]
+crewai = ["crewai>=0.80"]
+
+[project.urls]
+Homepage = "https://github.com/shadowdomnic/x402-data-tools"
+Service = "https://bess-x402.onrender.com"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/x402_data_tools"]
